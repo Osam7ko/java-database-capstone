@@ -6,43 +6,20 @@ MySQL uses JPA entities while MongoDB uses document models
 
 
 Section 2: Numbered Flow of Data and Control
-1-User Interaction
-The user interacts with the system either through an HTML-based dashboard (e.g., AdminDashboard, DoctorDashboard) or via a REST API client (e.g., mobile app) to access modules like appointments or patient records.
+1- User accesses the system through either an HTML dashboard (e.g., AdminDashboard or DoctorDashboard) or a REST API client (e.g., mobile app for appointments or patient records).
 
-2-Request Routing to Controller
-The incoming request is routed to the appropriate controller based on its type:
+2- The action is routed to the appropriate controller based on the request type—Thymeleaf controller for HTML pages or REST controller for JSON-based API calls.
 
-Thymeleaf Controllers handle server-side rendered views (HTML).
+3- The controller delegates the request to the service layer to apply business logic such as validation, scheduling, or processing.
 
-REST Controllers handle API requests and return JSON responses.
+4- The service layer interacts with the repository layer to access the required data.
 
-3-Business Logic Execution in Service Layer
-The controller delegates the request to the service layer, where business logic is applied—such as validating inputs, checking doctor availability, or managing workflows.
+5- The repository connects to the corresponding database—MySQL for structured data or MongoDB for flexible, document-based data.
 
-4-Data Access via Repository Layer
-The service layer calls the repository layer to perform database operations. Two types of repositories are used:
+6- The retrieved data is mapped into Java model classes, either JPA entities (for MySQL) or MongoDB documents (for MongoDB).
 
-JPA repositories for accessing MySQL (patients, doctors, appointments, admin users).
+7- The final result is returned to the client:
 
-MongoDB repositories for accessing prescription data.
+For Thymeleaf, the data is passed to HTML templates and rendered in the browser.
 
-5-Fetching from Databases
-Each repository interacts directly with its corresponding database:
-
-MySQL stores structured, relational data.
-
-MongoDB stores flexible, document-based data.
-
-6-Model Binding
-Retrieved data is bound to Java model classes:
-
-@Entity classes for MySQL data.
-
-@Document classes for MongoDB documents.
-
-7-Response Rendering
-The models are used to generate the final response:
-
-Thymeleaf templates render dynamic HTML views for browser users.
-
-REST controllers return the models (or DTOs) as JSON for API consumers.
+For REST, the data is serialized into JSON and returned as an HTTP response.
