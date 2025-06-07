@@ -37,16 +37,19 @@ public class Doctor {
     @ElementCollection
     private List<String> availableTimes;
 
-    // === New Enhanced Fields ===
+    // === Optional Fields ===
 
     @Min(value = 0, message = "Years of experience must be zero or more")
-    private int yearsOfExperience;
+    @Column(nullable = true)
+    private Integer yearsOfExperience;
 
     @Size(max = 255, message = "Clinic address must not exceed 255 characters")
+    @Column(nullable = true)
     private String clinicAddress;
 
     @DecimalMin(value = "1.0", message = "Rating must be at least 1.0")
     @DecimalMax(value = "5.0", message = "Rating must not exceed 5.0")
+    @Column(nullable = true)
     private Float rating;
 
     // === Constructors ===
@@ -54,7 +57,7 @@ public class Doctor {
     public Doctor() {}
 
     public Doctor(String name, String specialty, String email, String password, String phone,
-                  List<String> availableTimes, int yearsOfExperience, String clinicAddress, Float rating) {
+                  List<String> availableTimes, Integer yearsOfExperience, String clinicAddress, Float rating) {
         this.name = name;
         this.specialty = specialty;
         this.email = email;
@@ -124,11 +127,11 @@ public class Doctor {
         this.availableTimes = availableTimes;
     }
 
-    public int getYearsOfExperience() {
+    public Integer getYearsOfExperience() {
         return yearsOfExperience;
     }
 
-    public void setYearsOfExperience(int yearsOfExperience) {
+    public void setYearsOfExperience(Integer yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
 
