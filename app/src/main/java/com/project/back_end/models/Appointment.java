@@ -3,6 +3,7 @@ package com.project.back_end.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,15 +31,24 @@ public class Appointment {
     @NotNull(message = "Status is required")
     private int status; // 0 = Scheduled, 1 = Completed
 
-    // Default constructor required by JPA
+    @Size(max = 200, message = "Reason for visit must not exceed 200 characters")
+    private String reasonForVisit;
+
+    @Size(max = 300, message = "Notes must not exceed 300 characters")
+    private String notes;
+
+    // === Constructors ===
+
     public Appointment() {}
 
-    // Optional constructor
-    public Appointment(Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status) {
+    public Appointment(Doctor doctor, Patient patient, LocalDateTime appointmentTime, int status,
+                       String reasonForVisit, String notes) {
         this.doctor = doctor;
         this.patient = patient;
         this.appointmentTime = appointmentTime;
         this.status = status;
+        this.reasonForVisit = reasonForVisit;
+        this.notes = notes;
     }
 
     // === Getters and Setters ===
@@ -81,6 +91,22 @@ public class Appointment {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getReasonForVisit() {
+        return reasonForVisit;
+    }
+
+    public void setReasonForVisit(String reasonForVisit) {
+        this.reasonForVisit = reasonForVisit;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     // === Helper Methods ===

@@ -3,6 +3,7 @@ package com.project.back_end.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -30,16 +31,25 @@ public class Prescription {
     @Size(max = 200, message = "Doctor notes cannot exceed 200 characters")
     private String doctorNotes;
 
+    @Min(value = 0, message = "Refill count must be zero or more")
+    private int refillCount;
+
+    @Size(max = 100, message = "Pharmacy name must not exceed 100 characters")
+    private String pharmacyName;
+
     // === Constructors ===
 
     public Prescription() {}
 
-    public Prescription(String patientName, Long appointmentId, String medication, String dosage, String doctorNotes) {
+    public Prescription(String patientName, Long appointmentId, String medication, String dosage, String doctorNotes,
+                        int refillCount, String pharmacyName) {
         this.patientName = patientName;
         this.appointmentId = appointmentId;
         this.medication = medication;
         this.dosage = dosage;
         this.doctorNotes = doctorNotes;
+        this.refillCount = refillCount;
+        this.pharmacyName = pharmacyName;
     }
 
     // === Getters and Setters ===
@@ -90,5 +100,21 @@ public class Prescription {
 
     public void setDoctorNotes(String doctorNotes) {
         this.doctorNotes = doctorNotes;
+    }
+
+    public int getRefillCount() {
+        return refillCount;
+    }
+
+    public void setRefillCount(int refillCount) {
+        this.refillCount = refillCount;
+    }
+
+    public String getPharmacyName() {
+        return pharmacyName;
+    }
+
+    public void setPharmacyName(String pharmacyName) {
+        this.pharmacyName = pharmacyName;
     }
 }

@@ -37,17 +37,33 @@ public class Doctor {
     @ElementCollection
     private List<String> availableTimes;
 
+    // === New Enhanced Fields ===
+
+    @Min(value = 0, message = "Years of experience must be zero or more")
+    private int yearsOfExperience;
+
+    @Size(max = 255, message = "Clinic address must not exceed 255 characters")
+    private String clinicAddress;
+
+    @DecimalMin(value = "1.0", message = "Rating must be at least 1.0")
+    @DecimalMax(value = "5.0", message = "Rating must not exceed 5.0")
+    private Float rating;
+
     // === Constructors ===
 
     public Doctor() {}
 
-    public Doctor(String name, String specialty, String email, String password, String phone, List<String> availableTimes) {
+    public Doctor(String name, String specialty, String email, String password, String phone,
+                  List<String> availableTimes, int yearsOfExperience, String clinicAddress, Float rating) {
         this.name = name;
         this.specialty = specialty;
         this.email = email;
         this.password = password;
         this.phone = phone;
         this.availableTimes = availableTimes;
+        this.yearsOfExperience = yearsOfExperience;
+        this.clinicAddress = clinicAddress;
+        this.rating = rating;
     }
 
     // === Getters and Setters ===
@@ -106,5 +122,29 @@ public class Doctor {
 
     public void setAvailableTimes(List<String> availableTimes) {
         this.availableTimes = availableTimes;
+    }
+
+    public int getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(int yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    public String getClinicAddress() {
+        return clinicAddress;
+    }
+
+    public void setClinicAddress(String clinicAddress) {
+        this.clinicAddress = clinicAddress;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 }
