@@ -1,99 +1,65 @@
-<!-- patientAppointment.html -->
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- 
-Step-by-Step Explanation of the Patient Appointments Page
-This HTML file provides a structured interface for displaying and managing patient appointments, complete with filtering, searching, and dynamic content loading.
+<head>
+   <meta charset="UTF-8" />
+   <title>Patient Appointments</title>
+   <link rel="icon" type="image/svg+xml" href="../assets/images/logo/logo.png" />
 
-1. Declare the Document Type
+   <!-- CSS Stylesheets -->
+   <link rel="stylesheet" href="../assets/css/adminDashboard.css" />
+   <link rel="stylesheet" href="../assets/css/doctorDashboard.css" />
+   <link rel="stylesheet" href="../assets/css/style.css" />
 
-   * Use `<!DOCTYPE html>` to ensure HTML5 compliance for consistent rendering.
+   <!-- JavaScript Files -->
+   <script defer src="../js/render.js" type="module"></script>
+   <script defer src="../js/util.js" type="module"></script>
+   <script defer src="../js/components/header.js" type="module"></script>
+   <script defer src="../js/components/footer.js" type="module"></script>
+   <script defer src="../js/patientAppointment.js" type="module"></script>
+</head>
 
-2. Begin the HTML Document with Language Attribute
+<body onload="renderContent()">
+   <div class="container">
+      <div class="wrapper">
+         <!-- Header Placeholder -->
+         <div id="header"></div>
 
-   * Use `<html lang="en">` to specify English as the primary language.
+         <!-- Main Content Area -->
+         <div class="main-content">
+            <h2>Patient <span>Appointment</span></h2>
 
-3. Head Section – Metadata and Linked Assets
+            <!-- Search Bar -->
+            <input type="text" id="searchBar" class="searchBar" placeholder="Search Bar for custom output" />
 
-   * Begin the `<head>` block with essential meta tags, linked CSS stylesheets, and JavaScript scripts.
+            <!-- Appointment Filter Dropdown -->
+            <select id="filterSelect" class="filterSelect">
+               <option value="all">All Appointments</option>
+               <option value="upcoming">Upcoming Appointments</option>
+               <option value="past">Past Appointments</option>
+            </select>
 
-4. Set Character Encoding
+            <!-- Appointments Table -->
+            <table class="appointments-table">
+               <thead>
+                  <tr>
+                     <th>Patient</th>
+                     <th>Doctor</th>
+                     <th>Date</th>
+                     <th>Time</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody id="patientTableBody">
+                  <!-- Rows will be inserted here dynamically -->
+               </tbody>
+            </table>
+         </div>
 
-   * Use `<meta charset="UTF-8">` to support all text characters and symbols.
+         <!-- Footer Placeholder -->
+         <div id="footer"></div>
+      </div>
+   </div>
+</body>
 
-5. Set the Favicon
-
-   * Display the site’s logo in the browser tab using:
-     ```html
-     <link rel="icon" type="image/svg+xml" href="../assets/images/logo/logo.png" />
-     ```
-
-6. Set the Page Title
-
-   * Use `<title>Patient Appointments</title>` to show the name of the page in the browser tab.
-
-7. Link CSS Stylesheets
-
-   * Add three stylesheets to style the layout and components:
-     - `adminDashboard.css` – base layout styling
-     - `doctorDashboard.css` – reused styles (likely for table structure, buttons)
-     - `style.css` – shared global UI styles
-
-8. Include JavaScript Files (Deferred)
-
-   * Load supporting and modular JavaScript files with `defer`:
-     - `render.js` – handles dynamic HTML rendering
-     - `util.js` – utility functions
-     - `header.js` and `footer.js` – dynamically insert common header/footer
-     - `patientAppointment.js` – controls appointment filtering and table population
-
-9. Close Head and Begin the Body
-
-   * Use `<body onload="renderContent()">` to invoke content rendering when the page is fully loaded.
-
-10. Create the Container and Wrapper
-
-   * Use a `container` and `wrapper` div to structure and constrain the content layout.
-
-11. Insert Header Placeholder
-
-   * Include `<div id="header"></div>` for dynamic header rendering via JavaScript.
-
-12. Define the Main Content Area
-
-   * Use `<div class="main-content">` to wrap the core appointment display section.
-
-13. Add a Page Heading
-
-   * Insert a styled heading using `<h2>` and `<span>` for visual emphasis:
-     ```html
-     <h2>Patient <span>Appointment</span></h2>
-     ```
-
-14. Add a Search Bar
-
-   * Include a search input for filtering the appointments dynamically:
-     ```html
-     <input type="text" id="searchBar" class="searchBar" placeholder="Search Bar for custom output" />
-     ```
-
-15. Add Appointment Filter Dropdown
-
-   * Add a dropdown to allow filtering between:
-     - All appointments
-     - Future appointments
-     - Past appointments
-
-16. Create the Appointment Table
-
-   * Use a table to display the appointment data:
-     - Columns: Patient Name, Doctor Name, Date, Time, Actions
-     - The body (`#patientTableBody`) will be populated dynamically via JavaScript.
-
-17. Insert Footer Placeholder
-
-   * Add `<div id="footer"></div>` for the dynamically loaded footer content.
-
-18. Close All Tags
-
-   * Properly close all open elements to maintain valid and clean HTML.
- -->
+</html>

@@ -1,9 +1,10 @@
 package com.project.back_end.mvc;
 
-import com.project.back_end.service.TokenValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import com.project.back_end.services.TokenService;
 
 import java.util.Map;
 
@@ -12,26 +13,25 @@ public class DashboardController {
 
     // 2. Autowire the token validation service
     @Autowired
-    private TokenValidationService tokenValidationService;
+    private TokenService tokenValidationService;
 
     // 3. Admin Dashboard endpoint
     @GetMapping("/adminDashboard/{token}")
     public String adminDashboard(@PathVariable String token) {
-        Map<String, String> errors = tokenValidationService.validateToken(token, "admin");
+        boolean isValid = tokenValidationService.validateToken(token, "admin");
 
-        if (errors.isEmpty()) {
-            return "admin/adminDashboard"; // Thymeleaf template location
+        if (isValid) {
+            return "admin/adminDashboard";
         } else {
-            return "redirect:/"; // Invalid token, redirect to login
+            return "redirect:/";
         }
     }
 
-    // 4. Doctor Dashboard endpoint
     @GetMapping("/doctorDashboard/{token}")
     public String doctorDashboard(@PathVariable String token) {
-        Map<String, String> errors = tokenValidationService.validateToken(token, "doctor");
+        boolean isValid = tokenValidationService.validateToken(token, "doctor");
 
-        if (errors.isEmpty()) {
+        if (isValid) {
             return "doctor/doctorDashboard";
         } else {
             return "redirect:/";

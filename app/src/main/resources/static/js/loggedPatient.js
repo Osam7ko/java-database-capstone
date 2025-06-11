@@ -1,64 +1,128 @@
-/*
-  Import functions to fetch all doctors, filter doctors, and book an appointment
-  Import the function to create doctor cards for display
+import {
+  getDoctors,
+  filterDoctors,
+  bookAppointment,
+} from "../services/patientDashboard.js";
+import { createDoctorCard } from "../components/doctorCard.js";
 
+document.addEventListener("DOMContentLoaded", () => {
+  loadDoctorCards();
 
-  When the page is fully loaded (DOMContentLoaded):
-    - Call loadDoctorCards() to fetch and display all doctors initially
+  document
+    .getElementById("search")
+    .addEventListener("input", filterDoctorsOnChange);
+  document
+    .getElementById("timeFilter")
+    .addEventListener("change", filterDoctorsOnChange);
+  document
+    .getElementById("specialityFilter")
+    .addEventListener("change", filterDoctorsOnChange);
+});
 
+async function loadDoctorCards() {
+  try {
+    const doctors = await getDoctors();
+    const container = document.getElementById("doctorCards");
+    container.innerHTML = "";
 
-  Function: loadDoctorCards
-  Purpose: Fetch all doctors from the backend and display them as cards
+    doctors.forEach((doctor) => {
+      const card = createDoctorCard(doctor, showBookingOverlay);
+      container.appendChild(card);
+    });
+  } catch (error) {
+    console.error("Error loading doctors:", error);
+  }
+}
 
-   Call getDoctors() to retrieve doctor data
-   Clear any existing content from the container div
-   Loop through each doctor and:
-     - Create a visual card using createDoctorCard()
-     - Append it to the content container
-   Handle errors (e.g., show console message if fetch fails)
+function showBookingOverlay(doctor, patient) {
+  const ripple = document.createElement("span");
+  ripple.className = "ripple";
+  document.body.appendChild(ripple);
 
+  const modal = document.createElement("div");
+  modal.className = "modal";
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h2>Book Appointment</h2>
+      <label>Doctor: <input type="text" value="${doctor.name}" disabled></label>
+      <label>Patient: <input type="text" value="${
+        patient.name
+      }" disabled></label>
+      <label>Date: <input type="date" id="appointmentDate"></label>
+      <label>Time:
+        <select id="appointmentTime">
+          ${doctor.availableTimes
+            .map((time) => `<option value="${time}">${time}</option>`)
+            .join("")}
+        </select>
+      </label>
+      <button id="confirmBooking">Confirm Booking</button>
+    </div>
+  `;
 
-  Function: showBookingOverlay
-  Purpose: Display a modal to book an appointment with a selected doctor
+  document.body.appendChild(modal);
 
-   Create a ripple effect at the clicked location for UI feedback
-   Build a modal with:
-     - Pre-filled doctor and patient details (disabled inputs)
-     - Date picker for appointment
-     - Dropdown menu of available time slots
+  document
+    .getElementById("confirmBooking")
+    .addEventListener("click", async () => {
+      const date = document.getElementById("appointmentDate").value;
+      const time = document.getElementById("appointmentTime").value;
+      const datetime = new Date(`${date}T${time}`);
 
-   Append the modal to the document body and animate it
-   Add click listener to the "Confirm Booking" button:
-     - Collect selected date and time
-     - Format the time (extract start time for appointment)
-     - Prepare the appointment object with doctor, patient, and datetime
-     - Use bookAppointment() to send the request to the backend
-     - On success: Show alert, remove modal and ripple
-     - On failure: Show error message to the user
+      const appointment = {
+        patientId: patient.id,
+        doctorId: doctor.id,
+        appointmentTime: datetime.toISOString(),
+      };
 
+      try {
+        const result = await bookAppointment(
+          appointment,
+          localStorage.getItem("token")
+        );
+        if (result.success) {
+          alert("Appointment booked!");
+          document.body.removeChild(modal);
+          document.body.removeChild(ripple);
+        } else {
+          alert(result.message || "Failed to book appointment.");
+        }
+      } catch (error) {
+        alert("Error booking appointment.");
+        console.error(error);
+      }
+    });
+}
 
-  Add event listeners to:
-    - The search bar (on input)
-    - Time filter dropdown (on change)
-    - Specialty filter dropdown (on change)
+async function filterDoctorsOnChange() {
+  const name = document.getElementById("search").value.trim() || null;
+  const time = document.getElementById("timeFilter").value || null;
+  const speciality = document.getElementById("specialityFilter").value || null;
 
-  All inputs call filterDoctorsOnChange() to apply the filters dynamically
+  try {
+    const doctors = await filterDoctors(name, time, speciality);
+    const container = document.getElementById("doctorCards");
+    container.innerHTML = "";
 
+    if (doctors.length > 0) {
+      doctors.forEach((doctor) => {
+        const card = createDoctorCard(doctor, showBookingOverlay);
+        container.appendChild(card);
+      });
+    } else {
+      container.innerHTML = "<p>No doctors found with the given filters.</p>";
+    }
+  } catch (error) {
+    console.error("Error filtering doctors:", error);
+  }
+}
 
-  Function: filterDoctorsOnChange
-  Purpose: Fetch and display doctors based on user-selected filters
+export function renderDoctorCards(doctors) {
+  const container = document.getElementById("doctorCards");
+  container.innerHTML = "";
 
-   Read input values (name, time, specialty)
-   Set them to 'null' if empty, as expected by backend
-   Call filterDoctors(name, time, specialty)
-   If doctors are returned:
-     - Clear previous content
-     - Create and display a card for each doctor
-   If no results found, show a message: "No doctors found with the given filters."
-   Handle and display any fetch errors
-
-
-  Function: renderDoctorCards
-  Purpose: Render a list of doctor cards passed as an argument
-  Used to dynamically render pre-filtered results or external data
-*/
+  doctors.forEach((doctor) => {
+    const card = createDoctorCard(doctor, showBookingOverlay);
+    container.appendChild(card);
+  });
+}

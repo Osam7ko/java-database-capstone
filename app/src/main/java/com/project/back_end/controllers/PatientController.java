@@ -45,7 +45,7 @@ public class PatientController {
     // 2. Create a New Patient
     @PostMapping
     public ResponseEntity<Map<String, String>> createPatient(@RequestBody @Valid Patient patient) {
-        return patientService.createPatient(patient); // ← بدلًا من service.createPatient
+        return patientService.createPatient(patient);
     }
 
     // 3. Patient Login
@@ -85,7 +85,7 @@ public class PatientController {
         }
 
         Map<String, Object> response = new HashMap<>();
-        response.put("appointments", service.filterPatient(condition, name, token)); // ← أضف التوكن
+        response.put("appointments", service.filterPatient(condition, name, token));
         return ResponseEntity.ok(response);
     }
 }

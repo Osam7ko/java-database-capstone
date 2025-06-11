@@ -1,30 +1,49 @@
-/* 
- Import modules:
-   - getPatientAppointments: Fetches all appointments of a given patient.
-   - createPatientRecordRow: Creates a table row for each appointment entry.
+// patientRecordServices.js
+import { getPatientAppointments } from "../services/appointmentService.js";
+import { createPatientRecordRow } from "../components/patientRecordRow.js";
 
- DOM element references:
-   - tableBody: The body of the table where patient appointments will be listed.
-   - token: Retrieved from localStorage to authorize the API call.
-   - URL parameters: Used to extract the specific `patientId` and `doctorId` to filter data accordingly.
+document.addEventListener("DOMContentLoaded", initializePage);
 
- Page Initialization:
-   - On DOMContentLoaded, call `initializePage()` to load and display data.
+async function initializePage() {
+  const tableBody = document.getElementById("patientRecordBody");
+  const token = localStorage.getItem("token");
 
- Fetch appointments:
-   - Ensure the user token exists.
-   - Call `getPatientAppointments()` with the patient ID and token, specifying the user as `"doctor"` to access the correct backend logic.
-   - Filter appointments further by checking if `doctorId` matches the one in the query string.
+  const urlParams = new URLSearchParams(window.location.search);
+  const patientId = urlParams.get("patientId");
+  const doctorId = urlParams.get("doctorId");
 
- Render Appointments:
-   - Clear any previous content in the table.
-   - Always make the "Actions" column visible in the table.
-   - If no appointments exist, show a "No Appointments Found" message.
-   - Otherwise, loop through filtered data and render each appointment row using `createPatientRecordRow()`.
+  if (!token || !patientId || !doctorId) {
+    alert("Missing data. Please login again or check the URL.");
+    return;
+  }
 
- Error Handling:
-   - All major operations are wrapped in try-catch blocks.
-   - Errors are logged to the console for debugging.
-   - Alerts are used to notify the user of failure to load data.
+  try {
+    const appointments = await getPatientAppointments(
+      patientId,
+      token,
+      "doctor"
+    );
 
-*/
+    const filteredAppointments = appointments.filter(
+      (appt) => appt.doctorId.toString() === doctorId
+    );
+
+    tableBody.innerHTML = "";
+    document.getElementById("actionsHeader").style.display = "table-cell";
+
+    if (filteredAppointments.length === 0) {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td colspan="4">No Appointments Found.</td>`;
+      tableBody.appendChild(row);
+      return;
+    }
+
+    filteredAppointments.forEach((appointment) => {
+      const row = createPatientRecordRow(appointment);
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Failed to load patient appointments:", error);
+    alert("Failed to load data. Please try again later.");
+  }
+}

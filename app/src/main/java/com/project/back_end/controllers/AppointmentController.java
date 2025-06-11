@@ -27,7 +27,7 @@ public class AppointmentController {
         this.service = service;
     }
 
-    // ✅ Get Appointments (Doctor only)
+    // Get Appointments (Doctor only)
     @GetMapping("/{date}/{patientName}/{token}")
     public ResponseEntity<Map<String, Object>> getAppointments(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
@@ -44,7 +44,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointments);
     }
 
-    // ✅ Book Appointment (Patient only)
+    // Book Appointment (Patient only)
     @PostMapping("/{token}")
     public ResponseEntity<Map<String, String>> bookAppointment(
             @RequestBody @Valid Appointment appointment,
@@ -78,7 +78,7 @@ public class AppointmentController {
         }
     }
 
-    // ✅ Update Appointment (Patient only)
+    // Update Appointment (Patient only)
     @PutMapping("/{token}")
     public ResponseEntity<Map<String, String>> updateAppointment(
             @PathVariable String token,
@@ -92,7 +92,7 @@ public class AppointmentController {
         return appointmentService.updateAppointment(appointment);
     }
 
-    // ✅ Cancel Appointment (Patient only)
+    // Cancel Appointment (Patient only)
     @DeleteMapping("/{id}/{token}")
     public ResponseEntity<Map<String, String>> cancelAppointment(
             @PathVariable Long id,

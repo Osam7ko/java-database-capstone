@@ -1,15 +1,33 @@
-/*
-  Export a function named getAppointments that takes an appointment object as input
-  Create a new table row element to represent one appointment
-  Set the inner HTML of the row with appointment details:
-      - Patient Name
-      - Doctor Name
-      - Appointment Date
-      - Appointment Time
-      - Action icon (edit) with appointment ID stored in data-id attribute
-  Attach a click event listener to the edit icon (img with class 'prescription-btn')
-  On click, redirect to 'addPrescription.html' passing appointment.id as a query parameter
-    
-  Return the constructed table row so it can be appended to the DOM elsewhere
-    
-*/
+export function getAppointments(appointment) {
+  const tr = document.createElement("tr");
+
+  const dateTime = new Date(appointment.appointmentTime);
+  const date = dateTime.toLocaleDateString();
+  const time = dateTime.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  tr.innerHTML = `
+    <td>${appointment.patient.name}</td>
+    <td>${appointment.doctor.name}</td>
+    <td>${date}</td>
+    <td>${time}</td>
+    <td>
+      <img 
+        src="/assets/images/edit/edit.png" 
+        alt="Edit" 
+        class="prescription-btn" 
+        style="cursor: pointer; width: 20px;" 
+        data-id="${appointment.id}"
+      />
+    </td>
+  `;
+
+  const editIcon = tr.querySelector(".prescription-btn");
+  editIcon.addEventListener("click", () => {
+    window.location.href = `../pages/addPrescription.html?id=${appointment.id}`;
+  });
+
+  return tr;
+}

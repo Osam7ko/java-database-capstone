@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("${api.path}admin") // مثلاً: /api/v1/admin
+@RequestMapping("${api.path}admin")
 public class AdminController {
 
     private final AuthenticationService mainService;

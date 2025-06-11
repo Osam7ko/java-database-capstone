@@ -1,25 +1,25 @@
-/*
-  Export a function named createPatientRecordRow that takes a patient object as input
+export function createPatientRecordRow(patient) {
+  const tr = document.createElement("tr");
 
-   Create a new table row element using document.createElement
+  tr.innerHTML = `
+    <td>${patient.appointmentDate}</td>
+    <td>${patient.id}</td>
+    <td>${patient.patientId}</td>
+    <td>
+      <img 
+        src="/assets/images/addPrescriptionIcon/addPrescriptionIcon.png" 
+        alt="View Prescription" 
+        class="prescription-btn" 
+        style="cursor: pointer; width: 20px;" 
+        data-id="${patient.id}" 
+      />
+    </td>
+  `;
 
-   Set the inner HTML of the row with the following table data (td):
-    - The appointment date (patient.appointmentDate)
-    - The appointment ID (patient.id)
-    - The patient ID (patient.patientId)
-    - An image element (img) acting as a button:
-        - Set the image source to the path of the prescription icon
-        - Give it a class name like 'prescription-btn' for styling and event handling
-        - Set a data-id attribute to store the patient.id
-        - Optionally style the image for cursor pointer and size
+  const viewBtn = tr.querySelector(".prescription-btn");
+  viewBtn.addEventListener("click", () => {
+    window.location.href = `../pages/addPrescription.html?mode=view&appointmentId=${patient.id}`;
+  });
 
-   Select the image using querySelector (target the class 'prescription-btn')
-
-   Add a click event listener to this image:
-    - When clicked, redirect to 'addPrescription.html'
-    - Pass query parameters in the URL: 
-        - mode=view 
-        - appointmentId=patient.id
-
-   Return the constructed table row element so it can be appended to the DOM later
-*/
+  return tr;
+}
