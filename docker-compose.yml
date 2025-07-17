@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:8.3.0
+    container_name: cms-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cms
+    ports:
+      - "3307:3306"
+    volumes:
+      #      Local data
+      - ./docker/mysql/data:/var/lib/mysql
+      #      Build Script
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  mongodb:
+    image: mongo:7.0.5
+    container_name: cms-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: cms-prescriptions
+    ports:
+      - "27018:27017"
+    volumes:
+      #      Local Data
+      - ./docker/mongo/data:/data/db
