@@ -10,7 +10,7 @@ export async function getDoctors() {
     const response = await fetch(DOCTOR_API);
     if (response.ok) {
       const data = await response.json();
-      return data.doctors || [];
+      return data.doctors || []; // backend returns { doctors: [...] }
     } else {
       console.error("Failed to fetch doctors");
       return [];
@@ -24,7 +24,7 @@ export async function getDoctors() {
 // 2. Delete Doctor by ID (Admin only)
 export async function deleteDoctor(id, token) {
   try {
-    const url = `${DOCTOR_API}/${id}?token=${token}`;
+    const url = `${DOCTOR_API}/${id}/${token}`;
     const response = await fetch(url, {
       method: "DELETE",
     });
@@ -33,7 +33,8 @@ export async function deleteDoctor(id, token) {
       const data = await response.json();
       return { success: true, message: data.message };
     } else {
-      return { success: false, message: "Failed to delete doctor." };
+      const data = await response.json().catch(() => ({}));
+      return { success: false, message: data.message || "Failed to delete doctor." };
     }
   } catch (error) {
     console.error("Error deleting doctor:", error);
@@ -44,7 +45,7 @@ export async function deleteDoctor(id, token) {
 // 3. Save New Doctor (Admin only)
 export async function saveDoctor(doctor, token) {
   try {
-    const url = `${DOCTOR_API}/add?token=${token}`;
+    const url = `${DOCTOR_API}/${token}`;
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -62,13 +63,11 @@ export async function saveDoctor(doctor, token) {
 // 4. Filter Doctors by name, time, and specialty
 export async function filterDoctors(name, time, specialty) {
   try {
-    const url = `${DOCTOR_API}/filter/${name || "null"}/${time || "null"}/${
-      specialty || "null"
-    }`;
+    const url = `${DOCTOR_API}/filter/${name || "null"}/${time || "null"}/${specialty || "null"}`;
     const response = await fetch(url);
     if (response.ok) {
       const data = await response.json();
-      return data.doctors || [];
+      return data.filteredDoctors || []; // backend returns { filteredDoctors: [...] }
     } else {
       console.warn("No doctors found matching the filters.");
       return [];

@@ -4,75 +4,79 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Admin Dashboard</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" th:href="@{/assets/images/logo/logo.png}" />
+    <link rel="icon" th:href="@{/assets/images/logo/logo.png}" type="image/png"/>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" th:href="@{/assets/css/adminDashboard.css}" />
-    <link rel="stylesheet" th:href="@{/assets/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/adminDashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
 
     <!-- Utility & Render Scripts -->
-    <script th:src="@{/js/util.js}" defer></script>
-    <script th:src="@{/js/render.js}" defer></script>
+    <script defer src="/js/util.js" type="module"></script>
+    <script defer src="/js/render.js" type="module"></script>
+
 
     <!-- Components -->
-    <script th:src="@{/js/components/header.js}" defer></script>
-    <script th:src="@{/js/components/footer.js}" defer></script>
+    <script defer th:src="@{/js/components/header.js}"></script>
+    <script defer th:src="@{/js/components/footer.js}"></script>
 </head>
 
-<body onload="renderContent()">
-    <div class="container">
-        <div class="wrapper">
+<body>
+<div class="container">
+    <div class="wrapper">
 
-            <!-- Header -->
-            <div id="header"></div>
+        <!-- Header -->
+        <div id="header"></div>
 
-            <!-- Main Content -->
-            <main class="main-content">
-                <h2>Manage Doctors</h2>
+        <!-- Main Content -->
+        <main class="main-content">
+            <h2>Manage Doctors</h2>
 
-                <!-- Search bar -->
-                <input type="text" id="searchBar" placeholder="Search by doctor name" class="input-field" />
+            <!-- Search bar -->
+            <input class="input-field" id="searchBar" placeholder="Search by doctor name" type="text"/>
 
-                <!-- Filters -->
-                <div class="filters">
-                    <select id="filterByTime" class="select-dropdown">
-                        <option value="">Sort by Time</option>
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
+            <!-- Filters -->
+            <div class="filters">
+                <select class="select-dropdown" id="filterByTime">
+                    <option value="">Sort by Time</option>
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
 
-                    <select id="filterBySpecialty" class="select-dropdown">
-                        <option value="">Filter by Specialty</option>
-                        <option value="Cardiologist">Cardiologist</option>
-                        <option value="Dentist">Dentist</option>
-                        <option value="Pediatrician">Pediatrician</option>
-                        <option value="Neurologist">Neurologist</option>
-                        <!-- Add more specialties as needed -->
-                    </select>
-                </div>
+                <select class="select-dropdown" id="filterBySpecialty">
+                    <option value="">Filter by Specialty</option>
+                    <option value="Cardiologist">Cardiologist</option>
+                    <option value="Dentist">Dentist</option>
+                    <option value="Pediatrician">Pediatrician</option>
+                    <option value="Neurologist">Neurologist</option>
+                    <!-- Add more specialties as needed -->
+                </select>
+            </div>
 
-                <!-- Dynamic doctor cards will be injected here -->
-                <div id="content" class="card-container"></div>
-            </main>
+            <!-- Dynamic doctor cards will be injected here -->
+            <div class="card-container" id="content"></div>
+        </main>
 
-            <!-- Footer -->
-            <div id="footer"></div>
-        </div>
+        <!-- Footer -->
+        <div id="footer"></div>
     </div>
+</div>
 
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <span id="closeModal" class="close">&times;</span>
+<!-- Modal -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
         <div id="modal-body"></div>
     </div>
+</div>
 
-    <!-- Page-specific JS modules -->
-    <script type="module" th:src="@{/js/services/adminDashboard.js}" defer></script>
-    <script type="module" th:src="@{/js/components/doctorCard.js}" defer></script>
+
+<!-- Page-specific JS modules -->
+<script defer src="/js/adminDashboard.js" type="module"></script>
+<script defer th:src="@{/js/components/doctorCard.js}" type="module"></script>
 </body>
 
 </html>

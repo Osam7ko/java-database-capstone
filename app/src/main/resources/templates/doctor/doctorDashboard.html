@@ -4,75 +4,80 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Doctor Dashboard</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" th:href="@{/assets/images/logo/logo.png}" />
+    <link rel="icon" th:href="@{/assets/images/logo/logo.png}" type="image/png"/>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" th:href="@{/assets/css/adminDashboard.css}" />
-    <link rel="stylesheet" th:href="@{/assets/css/doctorDashboard.css}" />
-    <link rel="stylesheet" th:href="@{/assets/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/adminDashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/doctorDashboard.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
 
     <!-- Utility Scripts -->
-    <script th:src="@{/js/util.js}" defer></script>
-    <script th:src="@{/js/render.js}" defer></script>
+    <script defer th:src="@{/js/util.js}"></script>
+    <script defer th:src="@{/js/render.js}"></script>
 
     <!-- Components -->
-    <script th:src="@{/js/components/header.js}" defer></script>
-    <script th:src="@{/js/components/footer.js}" defer></script>
-    <script type="module" th:src="@{/js/components/patientRows.js}" defer></script>
+    <script defer th:src="@{/js/components/header.js}"></script>
+    <script defer th:src="@{/js/components/footer.js}"></script>
+    <script defer th:src="@{/js/components/patientRows.js}" type="module"></script>
 
     <!-- Services and Page Logic -->
-    <script type="module" th:src="@{/js/services/patientServices.js}" defer></script>
-    <script type="module" th:src="@{/js/services/doctorDashboard.js}" defer></script>
+    <script defer th:src="@{/js/services/patientServices.js}" type="module"></script>
+    <script defer th:src="@{/js/doctorDashboard.js}" type="module"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="wrapper">
-            <!-- Header -->
-            <div id="header"></div>
+<div class="container">
+    <div class="wrapper">
+        <!-- Header -->
+        <div id="header"></div>
 
-            <!-- Main Dashboard -->
-            <main class="main-content">
-                <h2>Patient Management</h2>
+        <!-- Main Dashboard -->
+        <main class="main-content">
+            <h2>Patient Management</h2>
 
-                <!-- Search and Filter Section -->
-                <div class="dashboard-filters">
-                    <input type="text" id="searchBar" placeholder="Search by patient name or ID" />
+            <!-- Search and Filter Section -->
+            <div class="dashboard-filters">
+                <input id="searchBar" placeholder="Search by patient name or ID" type="text"/>
 
-                    <div class="filter-group">
-                        <button id="todayAppointmentsBtn" class="button">Today's Appointments</button>
-                        <input type="date" id="filterDate" />
-                    </div>
+                <div class="filter-group">
+                    <button class="button" id="todayAppointmentsBtn">Today's Appointments</button>
+                    <input id="filterDate" type="date"/>
                 </div>
+            </div>
 
-                <!-- Patient Table -->
-                <div class="table-container">
-                    <table id="patientTable">
-                        <thead>
-                            <tr>
-                                <th>Patient ID</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Prescription</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Rows populated dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </main>
+            <!-- Patient Table -->
+            <div class="table-container">
+                <table id="patientTable">
+                    <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Prescription</th>
+                    </tr>
+                    </thead>
+                    <tbody id="patientTableBody">
+                    <!-- Rows populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
 
-            <!-- Footer -->
-            <div id="footer"></div>
-        </div>
+        <!-- Footer -->
+        <div id="footer"></div>
     </div>
+</div>
+<!-- Modal -->
+<div class="modal" id="modal" style="display:none;">
+    <span class="close" id="closeModal">&times;</span>
+    <div id="modal-body"></div>
+</div>
 </body>
 
 </html>

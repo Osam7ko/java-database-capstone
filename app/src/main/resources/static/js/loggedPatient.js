@@ -1,28 +1,25 @@
-import {
-  getDoctors,
-  filterDoctors,
-  bookAppointment,
-} from "../services/patientDashboard.js";
-import { createDoctorCard } from "../components/doctorCard.js";
+import { getDoctors, filterDoctors } from "./services/doctorServices.js";
+import { bookAppointment } from "./services/appointmentRecordService.js";
+import { createDoctorCard } from "./components/doctorCard.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   loadDoctorCards();
 
   document
-    .getElementById("search")
+    .getElementById("searchBar")
     .addEventListener("input", filterDoctorsOnChange);
   document
-    .getElementById("timeFilter")
+    .getElementById("filterTime")
     .addEventListener("change", filterDoctorsOnChange);
   document
-    .getElementById("specialityFilter")
+    .getElementById("filterSpecialty")
     .addEventListener("change", filterDoctorsOnChange);
 });
 
 async function loadDoctorCards() {
   try {
     const doctors = await getDoctors();
-    const container = document.getElementById("doctorCards");
+    const container = document.getElementById("content");
     container.innerHTML = "";
 
     doctors.forEach((doctor) => {
@@ -34,7 +31,7 @@ async function loadDoctorCards() {
   }
 }
 
-function showBookingOverlay(doctor, patient) {
+export function showBookingOverlay(doctor, patient) {
   const ripple = document.createElement("span");
   ripple.className = "ripple";
   document.body.appendChild(ripple);
@@ -95,13 +92,13 @@ function showBookingOverlay(doctor, patient) {
 }
 
 async function filterDoctorsOnChange() {
-  const name = document.getElementById("search").value.trim() || null;
-  const time = document.getElementById("timeFilter").value || null;
-  const speciality = document.getElementById("specialityFilter").value || null;
+  const name = document.getElementById("searchBar").value.trim() || null;
+  const time = document.getElementById("filterTime").value || null;
+  const speciality = document.getElementById("filterSpecialty").value || null;
 
   try {
     const doctors = await filterDoctors(name, time, speciality);
-    const container = document.getElementById("doctorCards");
+    const container = document.getElementById("content");
     container.innerHTML = "";
 
     if (doctors.length > 0) {

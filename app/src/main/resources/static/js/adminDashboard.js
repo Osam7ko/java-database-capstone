@@ -1,22 +1,17 @@
 // js/adminDashboard.js
-
 import { openModal } from "./components/modals.js";
-import {
-  getDoctors,
-  filterDoctors,
-  saveDoctor,
-} from "./services/doctorServices.js";
+import { getDoctors, filterDoctors, saveDoctor } from "./services/doctorServices.js";
 import { createDoctorCard } from "./components/doctorCard.js";
 
-// Event: Add Doctor Button Click
+
+//  Event: Add Doctor Button Click
 document.getElementById("addDocBtn")?.addEventListener("click", () => {
   openModal("addDoctor");
 });
 
-// Load Doctors on Page Load
-window.addEventListener("DOMContentLoaded", loadDoctorCards);
+//  Load Doctors on Page Load
+document.addEventListener("DOMContentLoaded", loadDoctorCards);
 
-// Fetch and display all doctors
 async function loadDoctorCards() {
   try {
     const doctors = await getDoctors();
@@ -26,18 +21,11 @@ async function loadDoctorCards() {
   }
 }
 
-// Filter Events
-document
-  .getElementById("searchBar")
-  ?.addEventListener("input", filterDoctorsOnChange);
-document
-  .getElementById("filterTime")
-  ?.addEventListener("change", filterDoctorsOnChange);
-document
-  .getElementById("filterSpecialty")
-  ?.addEventListener("change", filterDoctorsOnChange);
+//  Filter Events
+document.getElementById("searchBar")?.addEventListener("input", filterDoctorsOnChange);
+document.getElementById("filterTime")?.addEventListener("change", filterDoctorsOnChange);
+document.getElementById("filterSpecialty")?.addEventListener("change", filterDoctorsOnChange);
 
-// Handle filter and search
 async function filterDoctorsOnChange() {
   try {
     const name = document.getElementById("searchBar")?.value || null;
@@ -58,7 +46,6 @@ async function filterDoctorsOnChange() {
   }
 }
 
-// Render list of doctors
 function renderDoctorCards(doctors) {
   const contentDiv = document.getElementById("content");
   contentDiv.innerHTML = "";
@@ -69,7 +56,6 @@ function renderDoctorCards(doctors) {
   });
 }
 
-// Add Doctor handler
 export async function adminAddDoctor(event) {
   event.preventDefault();
 
@@ -79,9 +65,7 @@ export async function adminAddDoctor(event) {
   const password = document.getElementById("docPassword")?.value.trim();
   const specialty = document.getElementById("docSpecialty")?.value.trim();
 
-  const checkboxes = document.querySelectorAll(
-    "input[name='availability']:checked"
-  );
+  const checkboxes = document.querySelectorAll("input[name='availability']:checked");
   const availability = Array.from(checkboxes).map((c) => c.value);
 
   const token = localStorage.getItem("token");

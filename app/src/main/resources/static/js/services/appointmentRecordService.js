@@ -20,7 +20,9 @@ export async function getAllAppointments(date, patientName, token) {
       throw new Error("Failed to fetch appointments.");
     }
 
-    return await response.json();
+    const data = await response.json();
+    console.log("Appointments API response:", data);
+    return data.appointments || [];
   } catch (error) {
     console.error("Error in getAllAppointments:", error);
     throw error;

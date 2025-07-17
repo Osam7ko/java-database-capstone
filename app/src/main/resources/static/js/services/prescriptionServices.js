@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../config.js";
+import { API_BASE_URL } from "../config/config.js";
 
 const PRESCRIPTION_API = `${API_BASE_URL}/prescription`;
 

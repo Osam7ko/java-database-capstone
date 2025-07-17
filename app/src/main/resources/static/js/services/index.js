@@ -4,24 +4,27 @@ import { API_BASE_URL } from "../config/config.js";
 import { selectRole } from "../render.js";
 
 // API Endpoints
-const ADMIN_API = API_BASE_URL + "/admin";
+const ADMIN_API = API_BASE_URL + "/admin/login";
 const DOCTOR_API = API_BASE_URL + "/doctor/login";
 
 window.onload = function () {
-  const adminBtn = document.getElementById("adminLogin");
+  const adminBtn = document.getElementById('adminBtn');
+  const doctorBtn = document.getElementById('doctorBtn');
+  const patientBtn = document.getElementById('patientBtn');
+
   if (adminBtn) {
-    adminBtn.addEventListener("click", () => {
-      openModal("adminLogin");
-    });
+    adminBtn.addEventListener('click', () => openModal('adminLogin'));
   }
 
-  const doctorBtn = document.getElementById("doctorLogin");
   if (doctorBtn) {
-    doctorBtn.addEventListener("click", () => {
-      openModal("doctorLogin");
-    });
+    doctorBtn.addEventListener('click', () => openModal('doctorLogin'));
+  }
+
+  if (patientBtn) {
+    patientBtn.addEventListener('click', () => selectRole('patient'));
   }
 };
+
 
 // Global Admin Login Handler
 window.adminLoginHandler = async function () {
@@ -65,7 +68,7 @@ window.doctorLoginHandler = async function () {
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem("token", data.token);
-      selectRole("doctor");
+      window.location.href = `/doctorDashboard/${data.token}`;
     } else {
       alert("Invalid credentials!");
     }

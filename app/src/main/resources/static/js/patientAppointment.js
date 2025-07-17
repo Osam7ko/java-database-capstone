@@ -2,7 +2,7 @@ import {
   getPatientAppointments,
   getPatientData,
   filterAppointments,
-} from "../services/patientDashboard.js";
+} from "./patientDashboard.js";
 
 let tableBody;
 let token;
@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   document
-    .getElementById("search")
+    .getElementById("searchBar")
     .addEventListener("input", handleFilterChange);
   document
-    .getElementById("filterType")
+    .getElementById("filterSpecialty")
     .addEventListener("change", handleFilterChange);
 });
 
@@ -91,8 +91,8 @@ function renderAppointments(appointments) {
 }
 
 async function handleFilterChange() {
-  const search = document.getElementById("search").value;
-  const type = document.getElementById("filterType").value;
+  const search = document.getElementById("searchBar").value;
+  const type = document.getElementById("filterSpecialty").value;
 
   try {
     const filtered = await filterAppointments(search, type, token);

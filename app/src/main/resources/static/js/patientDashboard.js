@@ -2,7 +2,7 @@ import { createDoctorCard } from './components/doctorCard.js';
 import { openModal } from './components/modals.js';
 import { filterDoctors, getDoctors } from './services/doctorServices.js';
 import { patientLogin, patientSignup } from './services/patientServices.js';
-
+import {selectRole} from './render.js'
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -59,7 +59,7 @@ function filterDoctorsOnChange() {
 
   filterDoctors(name , time ,specialty)
     .then(response => {
-      const doctors = response.doctors;
+      const doctors = response;
       const contentDiv = document.getElementById("content");
       contentDiv.innerHTML = ""; 
 

@@ -7,18 +7,18 @@ export function selectRole(role) {
     case "admin":
       window.location.href = `/adminDashboard/${token}`;
       break;
-    case "patient":
-      window.location.href = "/js/pages/patientDashboard.html";
-      break;
     case "doctor":
       window.location.href = `/doctorDashboard/${token}`;
       break;
+    case "patient":
+      window.location.href = "/pages/patientDashboard.html";
+      break;
     case "loggedPatient":
-      window.location.href = "/js/pages/loggedPatientDashboard.html";
+      window.location.href = "/pages/loggedPatientDashboard.html";
       break;
     default:
       console.error("Invalid role provided.");
-      window.location.href = "/js/pages/index.html";
+      window.location.href = "/index.html";
       break;
   }
 }
@@ -27,7 +27,7 @@ export function renderContent() {
   const role = localStorage.getItem("role");
 
   if (!role) {
-    window.location.href = "/js/pages/index.html";
+    window.location.href = "/pages/index.html";
     return;
   }
 
