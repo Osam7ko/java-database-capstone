@@ -1,6 +1,6 @@
 // js/components/doctorCard.js
 
-import { showBookingOverlay } from "../loggedPatient/loggedPatient.js";
+import { showBookingOverlay } from "../loggedPatient.js";
 import { deleteDoctor } from "../services/doctorServices.js";
 import { getPatientData } from "../services/patientServices.js";
 
@@ -23,13 +23,14 @@ export function createDoctorCard(doctor) {
   name.textContent = doctor.name;
 
   const specialization = document.createElement("p");
-  specialization.textContent = `Specialization: ${doctor.specialization}`;
+  specialization.textContent = `Specialization: ${doctor.specialty}`;
 
   const email = document.createElement("p");
   email.textContent = `Email: ${doctor.email}`;
 
   const availability = document.createElement("p");
-  availability.textContent = `Available: ${doctor.availability.join(", ")}`;
+  const availabilityList = Array.isArray(doctor.availability) ? doctor.availability : [];
+  availability.textContent = `Available: ${availabilityList.join(", ")}`;
 
   infoDiv.appendChild(name);
   infoDiv.appendChild(specialization);
