@@ -25,7 +25,6 @@ body {
   flex-grow: 1;
   padding: 40px;
   background-image: url('../images/bg-clinic.jpg');
-  /* استخدم صورة مناسبة إذا وجدت */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -143,4 +142,14 @@ body {
 #modal-body select:focus {
   border-color: #015c5d;
   outline: none;
+}
+
+@media (max-width: 600px) {
+  #searchBar {
+    width: 100%;
+  }
+  .filters {
+    flex-direction: column;
+    align-items: center;
+  }
 }

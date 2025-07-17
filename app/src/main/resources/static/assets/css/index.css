@@ -66,6 +66,11 @@ button:hover {
   background-color: #A62B1F;
 }
 
+button:focus {
+  outline: 2px solid #003e3e;
+  outline-offset: 2px;
+}
+
 /* === Dashboard Buttons === */
 .dashboard-btn {
   background-color: #015c5d;
@@ -123,4 +128,16 @@ button:hover {
   background-color: #003e3e;
   color: white;
   font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+
+  button {
+    width: 100%;
+    font-size: 14px;
+  }
 }

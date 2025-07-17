@@ -76,6 +76,11 @@ h2 {
   font-size: 16px;
   border: 1px solid #ccc;
 }
+#searchBar:focus, #filterDate:focus {
+  border-color: #017d7e;
+  outline: none;
+  box-shadow: 0 0 3px rgba(1,125,126,0.5);
+}
 
 /* Table Styling */
 .table-container {
@@ -91,7 +96,7 @@ table {
 }
 
 thead {
-  background-color: #33333310;
+  background-color: rgba(1,92,93,0.9);
   color: #fff;
 }
 
