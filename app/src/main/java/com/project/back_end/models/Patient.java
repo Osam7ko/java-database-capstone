@@ -1,11 +1,19 @@
 package com.project.back_end.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "patients")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Patient {
 
     @Id
@@ -22,6 +30,7 @@ public class Patient {
 
     @NotNull(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull(message = "Phone number is required")
@@ -41,93 +50,4 @@ public class Patient {
     @Size(max = 100, message = "Insurance provider name must not exceed 100 characters")
     private String insuranceProvider;
 
-    // === Constructors ===
-
-    public Patient() {}
-
-    public Patient(String name, String email, String password, String phone, String address,
-                   LocalDate dateOfBirth, String emergencyContact, String insuranceProvider) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.address = address;
-        this.dateOfBirth = dateOfBirth;
-        this.emergencyContact = emergencyContact;
-        this.insuranceProvider = insuranceProvider;
-    }
-
-    // === Getters and Setters ===
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getEmergencyContact() {
-        return emergencyContact;
-    }
-
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
-    }
-
-    public String getInsuranceProvider() {
-        return insuranceProvider;
-    }
-
-    public void setInsuranceProvider(String insuranceProvider) {
-        this.insuranceProvider = insuranceProvider;
-    }
 }

@@ -3,10 +3,17 @@ package com.project.back_end.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "doctors")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Doctor {
 
     @Id
@@ -52,102 +59,5 @@ public class Doctor {
     @Column(nullable = true)
     private Float rating;
 
-    // === Constructors ===
 
-    public Doctor() {}
-
-    public Doctor(String name, String specialty, String email, String password, String phone,
-                  List<String> availableTimes, Integer yearsOfExperience, String clinicAddress, Float rating) {
-        this.name = name;
-        this.specialty = specialty;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.availableTimes = availableTimes;
-        this.yearsOfExperience = yearsOfExperience;
-        this.clinicAddress = clinicAddress;
-        this.rating = rating;
-    }
-
-    // === Getters and Setters ===
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public List<String> getAvailableTimes() {
-        return availableTimes;
-    }
-
-    public void setAvailableTimes(List<String> availableTimes) {
-        this.availableTimes = availableTimes;
-    }
-
-    public Integer getYearsOfExperience() {
-        return yearsOfExperience;
-    }
-
-    public void setYearsOfExperience(Integer yearsOfExperience) {
-        this.yearsOfExperience = yearsOfExperience;
-    }
-
-    public String getClinicAddress() {
-        return clinicAddress;
-    }
-
-    public void setClinicAddress(String clinicAddress) {
-        this.clinicAddress = clinicAddress;
-    }
-
-    public Float getRating() {
-        return rating;
-    }
-
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
 }
