@@ -1,155 +1,60 @@
-/* adminDashboard.css */
-
-/* === Global Reset === */
+/* adminDashboard CSS */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-}
-
-/* === Wrapper and Layout === */
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex-grow: 1;
-  padding: 40px;
-  background-image: url('../images/bg-clinic.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* === Heading === */
-.main-content h2 {
-  font-size: 36px;
-  margin-bottom: 30px;
-  color: #003e3e;
-}
-
-/* === Search Bar === */
-#searchBar {
-  width: 300px;
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-}
-
-/* === Filters === */
-.filters {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-.select-dropdown {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-/* === Button Styles === */
-.button,
-.adminBtn {
-  background-color: #015c5d;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin-top: 15px;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.button:hover,
-.adminBtn:hover {
-  background-color: #003e3e;
-}
-
-/* === Content Area === */
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-/* === Modal === */
-.modal {
-  display: none;
-  /* Hidden by default */
-  position: fixed;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal .close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-}
-
-#modal-body {
-  background-color: white;
-  margin: 10% auto;
-  padding: 30px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
-  position: relative;
-}
-
-#modal-body input,
-#modal-body select {
-  display: block;
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-#modal-body input:focus,
-#modal-body select:focus {
-  border-color: #015c5d;
-  outline: none;
-}
-
-@media (max-width: 600px) {
-  #searchBar {
-    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
-  .filters {
+  html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+
+  }
+  .wrapper {
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    min-height: 100vh;
   }
-}
+  h2 {
+    font-size: 32px;
+    margin-bottom: 50px;
+    color : #003e3e;
+  }
+  .main-content {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+
+    flex-direction: column;
+    text-align: center;
+    background-image: url("../images/defineRole/defineRole.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+  }
+  button {
+    background-color: #A62B1F;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 200px;
+  }
+  button:hover {
+    background-color: #A62B1F;
+  }
+  .adminBtn {
+    color: #333;
+    font-weight: bold;
+    background-color: #f4f4f4;
+    width:110px;
+    padding : 10px 0px;
+  }
+  .adminBtn:hover{
+    color: #A62B1F;
+    background-color: #f4f4f4;
+  }
