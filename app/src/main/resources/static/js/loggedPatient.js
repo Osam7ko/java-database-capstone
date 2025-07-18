@@ -1,19 +1,32 @@
 import { getDoctors, filterDoctors } from "./services/doctorServices.js";
 import { bookAppointment } from "./services/appointmentRecordService.js";
 import { createDoctorCard } from "./components/doctorCard.js";
+import { getPatientData } from "./services/patientServices.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadDoctorCards();
+let currentPatient = null;
 
-  document
-    .getElementById("searchBar")
-    .addEventListener("input", filterDoctorsOnChange);
-  document
-    .getElementById("filterTime")
-    .addEventListener("change", filterDoctorsOnChange);
-  document
-    .getElementById("filterSpecialty")
-    .addEventListener("change", filterDoctorsOnChange);
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const token = localStorage.getItem("token");
+    currentPatient = await getPatientData(token);
+
+    if (!currentPatient) {
+      alert("⚠️ Session expired. Please log in again.");
+      window.location.href = "/pages/patientDashboard.html";
+      return;
+    }
+
+    loadDoctorCards();
+
+
+    document.getElementById("searchBar").addEventListener("input", filterDoctorsOnChange);
+    document.getElementById("filterTime").addEventListener("change", filterDoctorsOnChange);
+    document.getElementById("filterSpecialty").addEventListener("change", filterDoctorsOnChange);
+
+  } catch (err) {
+    console.error("Failed to load patient data:", err);
+    window.location.href = "/pages/patientDashboard.html";
+  }
 });
 
 async function loadDoctorCards() {
@@ -23,13 +36,14 @@ async function loadDoctorCards() {
     container.innerHTML = "";
 
     doctors.forEach((doctor) => {
-      const card = createDoctorCard(doctor, showBookingOverlay);
+      const card = createDoctorCard(doctor, (doc) => showBookingOverlay(doc, currentPatient));
       container.appendChild(card);
     });
   } catch (error) {
     console.error("Error loading doctors:", error);
   }
 }
+
 
 export function showBookingOverlay(doctor, patient) {
   const ripple = document.createElement("span");
@@ -103,7 +117,7 @@ async function filterDoctorsOnChange() {
 
     if (doctors.length > 0) {
       doctors.forEach((doctor) => {
-        const card = createDoctorCard(doctor, showBookingOverlay);
+        const card = createDoctorCard(doctor, (doc) => showBookingOverlay(doc, currentPatient));
         container.appendChild(card);
       });
     } else {
@@ -113,6 +127,7 @@ async function filterDoctorsOnChange() {
     console.error("Error filtering doctors:", error);
   }
 }
+
 
 export function renderDoctorCards(doctors) {
   const container = document.getElementById("doctorCards");

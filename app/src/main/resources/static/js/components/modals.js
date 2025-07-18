@@ -81,11 +81,11 @@ export function openModal(type) {
   };
 
   if (type === "patientSignup") {
-    document.getElementById("signupBtn").addEventListener("click", signupPatient);
+    document.getElementById("signupPatientBtn").addEventListener("click", signupPatient);
   }
 
   if(type === "patientLogin"){
-    document.getElementById("loginBtn").addEventListener("click" , loginPatient);
+    document.getElementById("loginPatientBtn").addEventListener("click" , loginPatient);
   }
 
   if(type === 'addDoctor'){

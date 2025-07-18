@@ -33,3 +33,4 @@ export function renderContent() {
 
   // future rendering logic based on role
 }
+window.renderContent = renderContent;

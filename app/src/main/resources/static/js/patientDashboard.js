@@ -10,17 +10,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("patientSignup");
+  const signupBtn = document.getElementById("signupPatientBtn");
   if (btn) {
-    btn.addEventListener("click", () => openModal("patientSignup"));
+    btn.addEventListener("click", () => openModal("signupPatientBtn"));
   }
 });
 
 document.addEventListener("DOMContentLoaded", ()=> {
-  const loginBtn = document.getElementById("patientLogin")
+  const loginBtn = document.getElementById("loginPatientBtn");
   if(loginBtn){
     loginBtn.addEventListener("click" , ()=> {
-      openModal("patientLogin")
+      openModal("loginPatientBtn")
     })
   }
 })
