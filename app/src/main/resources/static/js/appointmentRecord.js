@@ -1,50 +1,43 @@
-import { getAppointments } from "../components/appointmentRow.js";
-import { getAppointmentRecord } from "../services/appointmentRecordService.js";
+import { getAppointments } from "./components/appointmentRow.js";
+import { getAppointmentRecord } from "./services/appointmentRecordService.js";
 
-const tableBody = document.querySelector("#appointmentTable tbody");
-const filterDropdown = document.getElementById("appointmentFilter");
+const tableBody = document.getElementById("patientTableBody");
+const filterSelect = document.getElementById("appointmentFilter");
 
-async function loadAppointments(filter) {
-  const token = localStorage.getItem("token");
-  const appointments = await getAppointmentRecord(token);
+async function loadAppointments(filter = "upcoming") {
+  const appointments = await getAppointmentRecord();
 
-  // No appointments at all
   if (!appointments || appointments.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="4">No appointments found.</td></tr>`;
+    tableBody.innerHTML = `<tr><td class="noPatientRecord" colspan='5'>No appointments found.</td></tr>`;
     return;
   }
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = new Date().setHours(0, 0, 0, 0);
+  let filteredAppointments = appointments;
 
-  const filteredAppointments = appointments.filter((app) => {
-    const appointmentDate = new Date(app.appointmentTime);
-    appointmentDate.setHours(0, 0, 0, 0);
-    return filter === "upcoming"
-      ? appointmentDate >= today
-      : appointmentDate < today;
-  });
+  if (filter === "upcoming") {
+    filteredAppointments = appointments.filter(app => new Date(app.date) >= today);
+  } else if (filter === "past") {
+    filteredAppointments = appointments.filter(app => new Date(app.date) < today);
+  }
 
   if (filteredAppointments.length === 0) {
-    const message =
-      filter === "upcoming"
-        ? "No upcoming appointments found."
-        : "No past appointments found.";
-    tableBody.innerHTML = `<tr><td colspan="4">${message}</td></tr>`;
+    tableBody.innerHTML = `<tr><td class="noPatientRecord" colspan='5'>No ${filter} appointments found.</td></tr>`;
     return;
   }
 
-  // Render table rows
   tableBody.innerHTML = "";
-  filteredAppointments.forEach((appointment) => {
+  filteredAppointments.forEach(appointment => {
     const row = getAppointments(appointment);
     tableBody.appendChild(row);
   });
 }
 
-filterDropdown.addEventListener("change", (e) => {
-  loadAppointments(e.target.value);
+// Handle filter change
+filterSelect.addEventListener("change", (e) => {
+  const selectedFilter = e.target.value;
+  loadAppointments(selectedFilter);
 });
 
-// Initial load: only upcoming appointments
+// Load upcoming appointments by default
 loadAppointments("upcoming");

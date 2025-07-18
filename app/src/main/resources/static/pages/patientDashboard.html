@@ -3,17 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/assets/images/logo/logo.png" rel="icon" type="image/png"/>
-    <title>Patient Dashboard - Healthcare Management</title>
-    <link href="/assets/css/adminDashboard.css" rel="stylesheet">
-    <link href="/assets/css/style.css" rel="stylesheet">
-    <link href="/assets/css/patientDashboard.css" rel="stylesheet">
-    <script defer src="/js/render.js" type="module"></script>
-    <script defer src="/js/util.js" type="module"></script>
-    <script defer src="/js/components/header.js"></script>
-    <script defer src="/js/components/footer.js"></script>
-    <script defer src="/js/components/modals.js" type="module"></script>
+    <link href="../assets/images/logo/logo.png" rel="icon" type="image/svg+xml"/>
+    <title>PatientDashboard</title>
+    <link href="../assets/css/adminDashboard.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/patientDashboard.css" rel="stylesheet">
+    <script defer src="../js/render.js"></script>
+    <script defer src="../js/util.js"></script>
+    <script defer src="../js/components/header.js"></script>
+    <script defer src="../js/components/footer.js"></script>
+    <script src="../js/components/modals.js" type="module"></script>
 </head>
 <body onload="renderContent()">
 <div class="container">
@@ -33,12 +32,12 @@
                     <option value="Dermatologist">Dermatologist</option>
                     <option value="Neurologist">Neurologist</option>
                     <option value="Pediatrician">Pediatrician</option>
-                    <option value="Orthopedist">Orthopedist</option>
+                    <option value="Orthopedic">Orthopedic</option>
                     <option value="Gynecologist">Gynecologist</option>
                     <option value="Psychiatrist">Psychiatrist</option>
                     <option value="Dentist">Dentist</option>
                     <option value="Ophthalmologist">Ophthalmologist</option>
-                    <option value="ENT">ENT Specialist</option>
+                    <option value="Ent">ENT Specialist</option>
                     <option value="Urologist">Urologist</option>
                     <option value="Oncologist">Oncologist</option>
                     <option value="Gastroenterologist">Gastroenterologist</option>
@@ -46,11 +45,6 @@
                 </select>
             </div>
             <div id="content"></div>
-            <div class="auth-buttons">
-                <button class="dashboard-btn" id="signupPatientBtn">Sign Up</button>
-                <button class="dashboard-btn" id="loginPatientBtn">Login</button>
-            </div>
-
         </main>
         <div id="footer"></div>
     </div>
@@ -61,6 +55,6 @@
         <div id="modal-body"></div>
     </div>
 </div>
-<script defer src="/js/patientDashboard.js" type="module"></script>
+<script defer src="../js/patientDashboard.js" type="module"></script>
 </body>
 </html>

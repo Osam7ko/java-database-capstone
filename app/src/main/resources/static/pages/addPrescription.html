@@ -2,69 +2,51 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="../assets/images/logo/logo.png" />
-    <title>Add Prescription</title>
+    <meta charset="UTF-8">
+    <link href="../assets/images/logo/logo.png" rel="icon" type="image/svg+xml"/>
+    <title>DoctorDashboard</title>
+    <link href="../assets/css/adminDashboard.css" rel="stylesheet">
+    <link href="../assets/css/doctorDashboard.css" rel="stylesheet">
+    <link href="../assets/css/addPrescription.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <script defer src="../js/render.js"></script>
+    <script defer src="../js/util.js"></script>
+    <script defer src="../js/components/header.js"></script>
+    <script defer src="../js/components/footer.js"></script>
+    <script src="../js/addPrescription.js" type="module"></script>
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../assets/css/adminDashboard.css" />
-    <link rel="stylesheet" href="../assets/css/doctorDashboard.css" />
-    <link rel="stylesheet" href="../assets/css/addPrescription.css" />
-    <link rel="stylesheet" href="../assets/css/style.css" />
-
-    <!-- Scripts -->
-    <script defer src="../js/render.js" type="module"></script>
-    <script defer src="../js/util.js" type="module"></script>
-    <script defer src="../js/components/header.js" type="module"></script>
-    <script defer src="../js/components/footer.js" type="module"></script>
-    <script defer src="../js/addPrescription.js" type="module"></script>
 </head>
 
 <body onload="renderContent()">
-    <div class="container">
-        <div class="wrapper">
-            <!-- Header -->
-            <div id="header"></div>
+<div class="container">
+    <div class="wrapper">
+        <div id="header"></div>
+        <div class="main-content">
+            <div class="form-container">
+                <h2 id="heading">Add <span>Prescription</span></h2>
+                <form>
+                    <label for="patientName">Patient Name</label>
+                    <input disabled id="patientName" type="text">
 
-            <!-- Main Content -->
-            <div class="main-content">
-                <div class="form-container">
-                    <h2 id="prescriptionHeading">Add <span>Prescription</span></h2>
-                    <form id="prescriptionForm">
-                        <div class="form-group">
-                            <label for="patientName">Patient Name</label>
-                            <input type="text" id="patientName" name="patientName" disabled />
-                        </div>
+                    <label for="medicines">Medicine Names</label>
+                    <input id="medicines" placeholder="e.g. Paracetamol, Vitamin C" required type="text">
 
-                        <div class="form-group">
-                            <label for="medication">Medicine Name(s)</label>
-                            <input type="text" id="medication" name="medication" placeholder="e.g., Amoxicillin 500mg"
-                                required />
-                        </div>
+                    <label for="dosage">Dosage Instructions</label>
+                    <textarea id="dosage" placeholder="e.g - Paracetamol"
+                              rows="3"></textarea>
 
-                        <div class="form-group">
-                            <label for="dosage">Dosage Instructions</label>
-                            <textarea id="dosage" name="dosage" rows="3"
-                                placeholder="e.g., Take 1 capsule twice daily after meals" required></textarea>
-                        </div>
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" placeholder="Any precautions or observations (optional)"
+                              rows="3"></textarea>
 
-                        <div class="form-group">
-                            <label for="notes">Additional Notes</label>
-                            <textarea id="notes" name="notes" rows="2" placeholder="Optional notes..."></textarea>
-                        </div>
-
-                        <div class="form-buttons">
-                            <button type="submit" id="saveBtn">Save Prescription</button>
-                            <button type="button" onclick="selectRole('doctor')">Cancel</button>
-                        </div>
-                    </form>
-                </div>
+                    <button class="btn-primary" id="savePrescription" type="submit">Add Prescription</button>
+                    <button class="btn-secondary" onclick="selectRole('doctor')" type="button">Cancel</button>
+                </form>
             </div>
-
-            <!-- Footer -->
-            <div id="footer"></div>
         </div>
+        <div id="footer"></div>
     </div>
-</body>
+</div>
 
+</body>
 </html>

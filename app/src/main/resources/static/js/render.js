@@ -1,36 +1,32 @@
 // render.js
 
-export function selectRole(role) {
-  const token = localStorage.getItem("token");
-
-  switch (role) {
-    case "admin":
-      window.location.href = `/adminDashboard/${token}`;
-      break;
-    case "doctor":
-      window.location.href = `/doctorDashboard/${token}`;
-      break;
-    case "patient":
-      window.location.href = "/pages/patientDashboard.html";
-      break;
-    case "loggedPatient":
-      window.location.href = "/pages/loggedPatientDashboard.html";
-      break;
-    default:
-      console.error("Invalid role provided.");
-      window.location.href = "/index.html";
-      break;
+function selectRole(role) {
+  setRole(role);
+  const token = localStorage.getItem('token');
+  if (role === "admin") {
+    if (token) {
+      window.location.href = `http://localhost:8080/adminDashboard/${token}`;
+    }
+  } if (role === "patient") {
+    window.location.href = "/pages/patientDashboard.html";
+  } else if (role === "doctor") {
+    if (token) {
+      window.location.href = `http://localhost:8080/doctorDashboard/${token}`;
+    } else if (role === "loggedPatient") {
+      window.location.href = "loggedPatientDashboard.html";
+    }
   }
 }
 
-export function renderContent() {
-  const role = localStorage.getItem("userRole");
 
+function renderContent() {
+  const role = getRole();
   if (!role) {
-    window.location.href = "/index.html";
+    window.location.href = "/"; // if no role, send to role selection page
     return;
   }
 
-  // future rendering logic based on role
+
+
+
 }
-window.renderContent = renderContent;

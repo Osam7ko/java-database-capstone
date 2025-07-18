@@ -1,87 +1,47 @@
 <!-- doctorDashboard.html -->
-
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Doctor Dashboard - Healthcare Management</title>
-
-    <!-- Favicon -->
+    <meta charset="UTF-8">
     <link rel="icon" th:href="@{/assets/images/logo/logo.png}" type="image/png"/>
+    <title>Doctor Dashboard</title>
 
-    <!-- Stylesheets -->
     <link rel="stylesheet" th:href="@{/assets/css/adminDashboard.css}"/>
     <link rel="stylesheet" th:href="@{/assets/css/doctorDashboard.css}"/>
     <link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
 
-    <!-- Utility Scripts -->
-    <script defer th:src="@{/js/util.js}" type="module"></script>
-    <script defer th:src="@{/js/render.js}" type="module"></script>
-
-    <!-- Components -->
+    <script defer th:src="@{/js/render.js}"></script>
+    <script defer th:src="@{/js/util.js}"></script>
     <script defer th:src="@{/js/components/header.js}"></script>
     <script defer th:src="@{/js/components/footer.js}"></script>
-    <script defer th:src="@{/js/components/patientRows.js}" type="module"></script>
-
-    <!-- Services and Page Logic -->
-    <script defer th:src="@{/js/services/patientServices.js}" type="module"></script>
     <script defer th:src="@{/js/doctorDashboard.js}" type="module"></script>
 </head>
-
-<body>
+<body onload="renderContent()">
 <div class="container">
     <div class="wrapper">
-        <!-- Header -->
         <div id="header"></div>
-
-        <!-- Main Dashboard -->
-        <main class="main-content">
-            <h2>Patient Management</h2>
-
-            <!-- Search and Filter Section -->
-            <div class="dashboard-filters">
-                <input id="searchBar" placeholder="Search by patient name or ID" type="text"/>
-
-                <div class="filter-group">
-                    <button class="button" id="todayAppointmentsBtn">Today's Appointments</button>
-                    <input id="filterDate" type="date"/>
-                </div>
+        <div class="main-content">
+            <input class="searchBar" id="searchBar" placeholder="Search Bar for custom output" type="text"/>
+            <div class="filter-wrapper">
+                <button class="today-btn" id="todayButton">Today's Appointments</button>
+                <input class="date-picker" id="datePicker" type="date"/>
             </div>
-
-            <!-- Patient Table -->
-            <div class="table-container">
-                <table id="patientTable">
-                    <thead>
-                    <tr>
-                        <th>Patient ID</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Appointment Date</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody id="patientTableBody">
-                    <!-- Rows populated dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </main>
-
-        <!-- Footer -->
+            <table id="patientTable">
+                <thead class="table-header">
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Name</th>
+                    <th>Phone No.</th>
+                    <th>Email</th>
+                    <th>Prescription</th>
+                </tr>
+                </thead>
+                <tbody id="patientTableBody"></tbody>
+            </table>
+        </div>
         <div id="footer"></div>
     </div>
 </div>
-
-<!-- Modal -->
-<div class="modal" id="modal" style="display:none;">
-    <div class="modal-content">
-        <span class="close" id="closeModal">&times;</span>
-        <div id="modal-body"></div>
-    </div>
-</div>
 </body>
-
 </html>

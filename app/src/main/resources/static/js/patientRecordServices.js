@@ -1,49 +1,47 @@
-// patientRecordServices.js
-import { getPatientAppointments } from "../services/appointmentService.js";
-import { createPatientRecordRow } from "../components/patientRecordRow.js";
+import { getPatientAppointments } from "./services/patientServices.js";
+import { createPatientRecordRow } from './components/patientRecordRow.js';
+
+const tableBody = document.getElementById("patientTableBody");
+const token = localStorage.getItem("token");
+
+const urlParams = new URLSearchParams(window.location.search);
+const patientId = urlParams.get("id");
+const doctorId = urlParams.get("doctorId");
 
 document.addEventListener("DOMContentLoaded", initializePage);
 
 async function initializePage() {
-  const tableBody = document.getElementById("patientRecordBody");
-  const token = localStorage.getItem("token");
+  try {
+    if (!token) throw new Error("No token found");
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const patientId = urlParams.get("patientId");
-  const doctorId = urlParams.get("doctorId");
+    const appointmentData = await getPatientAppointments(patientId, token, "doctor") || [];
 
-  if (!token || !patientId || !doctorId) {
-    alert("Missing data. Please login again or check the URL.");
+    // Filter by both patientId and doctorId
+    const filteredAppointments = appointmentData.filter(app => 
+      app.doctorId == doctorId);
+    console.log(filteredAppointments)
+    renderAppointments(filteredAppointments);
+  } catch (error) {
+    console.error("Error loading appointments:", error);
+    alert("❌ Failed to load your appointments.");
+  }
+}
+
+function renderAppointments(appointments) {
+  tableBody.innerHTML = "";
+
+  const actionTh = document.querySelector("#patientTable thead tr th:last-child");
+  if (actionTh) {
+    actionTh.style.display = "table-cell"; // Always show "Actions" column
+  }
+
+  if (!appointments.length) {
+    tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No Appointments Found</td></tr>`;
     return;
   }
 
-  try {
-    const appointments = await getPatientAppointments(
-      patientId,
-      token,
-      "doctor"
-    );
-
-    const filteredAppointments = appointments.filter(
-      (appt) => appt.doctorId.toString() === doctorId
-    );
-
-    tableBody.innerHTML = "";
-    document.getElementById("actionsHeader").style.display = "table-cell";
-
-    if (filteredAppointments.length === 0) {
-      const row = document.createElement("tr");
-      row.innerHTML = `<td colspan="4">No Appointments Found.</td>`;
-      tableBody.appendChild(row);
-      return;
-    }
-
-    filteredAppointments.forEach((appointment) => {
-      const row = createPatientRecordRow(appointment);
-      tableBody.appendChild(row);
-    });
-  } catch (error) {
-    console.error("Failed to load patient appointments:", error);
-    alert("Failed to load data. Please try again later.");
-  }
+  appointments.forEach(appointment => {
+    const row = createPatientRecordRow(appointment);
+    tableBody.appendChild(row);
+  });
 }

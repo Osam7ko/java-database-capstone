@@ -1,63 +1,55 @@
+<!-- adminDashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8" />
-   <title>Doctor Dashboard - Update Appointment</title>
-   <link rel="icon" type="image/svg+xml" href="../assets/images/logo/logo.png" />
-
-   <!-- Stylesheets -->
-   <link rel="stylesheet" href="../static/css/adminDashboard.css" />
-   <link rel="stylesheet" href="../static/css/doctorDashboard.css" />
-   <link rel="stylesheet" href="../static/css/updateAppointment.css" />
-   <link rel="stylesheet" href="../static/css/style.css" />
-
-   <!-- Scripts -->
-   <!-- Scripts -->
-   <script src="../js/render.js" type="module" defer></script>
-   <script src="../js/util.js" type="module" defer></script>
-   <script src="../js/components/header.js" type="module" defer></script>
-   <script src="../js/components/footer.js" type="module" defer></script>
-   <script src="../js/updateAppointment.js" type="module" defer></script>
+    <meta charset="UTF-8">
+    <link href="../assets/images/logo/logo.png" rel="icon" type="image/svg+xml"/>
+    <title>DoctorDashboard</title>
+    <link href="../assets/css/adminDashboard.css" rel="stylesheet">
+    <link href="../assets/css/doctorDashboard.css" rel="stylesheet">
+    <link href="../assets/css/updateAppointment.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <script defer src="../js/render.js"></script>
+    <script defer src="../js/util.js"></script>
+    <script defer src="../js/components/header.js"></script>
+    <script defer src="../js/components/footer.js"></script>
+    <script defer src="../js/updateAppointment.js" type="module"></script>
 </head>
 
 <body onload="renderContent()">
-   <div class="container">
-      <div class="wrapper">
-         <!-- Dynamic Header -->
-         <div id="header"></div>
-
-         <!-- Main Content -->
-         <div class="main-content">
-            <h2>Update <span>Appointment</span></h2>
-
+<div class="container">
+    <div class="wrapper">
+        <div id="header"></div>
+        <div class="main-content">
             <div class="form-container">
-               <form id="updateAppointmentForm">
-                  <label for="patientName">Patient Name</label>
-                  <input type="text" id="patientName" name="patientName" disabled />
+                <h2>Update <span>Appointment</span></h2>
+                <form id="updateAppointmentForm">
+                    <label for="patientName">Patient Name</label>
+                    <input disabled id="patientName" type="text">
 
-                  <label for="doctorName">Doctor Name</label>
-                  <input type="text" id="doctorName" name="doctorName" disabled />
+                    <label for="doctorName">Doctor Name</label>
+                    <input disabled id="doctorName" type="text">
 
-                  <label for="date">Appointment Date</label>
-                  <input type="date" id="date" name="date" required />
+                    <label for="appointmentDate">Date</label>
+                    <input id="appointmentDate" required type="date">
 
-                  <label for="time">Appointment Time</label>
-                  <select id="time" name="time" required>
-                     <option value="">Select Time</option>
-                     <!-- Options will be added dynamically -->
-                  </select>
+                    <label for="appointmentTime">Time</label>
+                    <select id="appointmentTime" required>
+                    </select>
 
-                  <button type="submit" class="btn primary">Update Appointment</button>
-                  <button type="button" class="btn secondary" onclick="selectRole('doctor')">Cancel</button>
-               </form>
+                    <button class="btn-primary" id="updateAppointment" type="submit">Update Appointment</button>
+                    <button class="btn-secondary" onclick="window.location.href='/pages/patientAppointments.html'"
+                            type="button">Cancel
+                    </button>
+                </form>
             </div>
-         </div>
+        </div>
+        <div id="footer"></div>
+    </div>
+</div>
 
-         <!-- Dynamic Footer -->
-         <div id="footer"></div>
-      </div>
-   </div>
 </body>
+
 
 </html>

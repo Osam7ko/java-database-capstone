@@ -1,63 +1,45 @@
-import { API_BASE_URL } from "../config/config.js";
+import { API_BASE_URL} from '../config/config.js'
 
-const PRESCRIPTION_API = `${API_BASE_URL}/prescription`;
-
-/**
- * Save a new prescription
- * @param {Object} prescription - The prescription data
- * @param {String} token - The JWT token of the doctor
- * @returns {Promise<{ success: boolean, message: string }>}
- */
-export async function savePrescription(prescription, token) {
-  try {
-    const response = await fetch(`${PRESCRIPTION_API}/${token}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(prescription),
-    });
-
-    const data = await response.json();
-
-    return {
-      success: response.ok,
-      message: data.message || "Something went wrong",
-    };
-  } catch (error) {
-    console.error("Error saving prescription:", error);
-    return {
-      success: false,
-      message: "Failed to save prescription due to a network or server error.",
-    };
-  }
+const PRESCRITION_API = API_BASE_URL + "/prescription"
+export async function savePrescription(prescription ,token){
+    try {
+        const response = await fetch(`${PRESCRITION_API}/${token}`,{
+          method : "POST",
+          headers : {
+            "Content-type" : "application/json"
+          },
+          body:JSON.stringify(prescription)
+        });
+        const result = await response.json();
+        return {success : response.ok , message : result.message}
+      }
+      catch(error) {
+        console.error("Error :: savePrescription :: " , error)
+        return { success : false , message : result.message}
+      }
 }
 
-/**
- * Get prescription by appointmentId
- * @param {Number} appointmentId - The ID of the appointment
- * @param {String} token - The JWT token of the doctor
- * @returns {Promise<Object>} - Prescription data or throws error
- */
 export async function getPrescription(appointmentId, token) {
   try {
-    const response = await fetch(
-      `${PRESCRIPTION_API}/${appointmentId}/${token}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+    const response = await fetch(`${PRESCRITION_API}/${appointmentId}/${token}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
       }
-    );
+    });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || "Failed to fetch prescription");
+      const errorData = await response.json();
+      console.error("Failed to fetch prescription:", errorData);
+      throw new Error(errorData.message || "Unable to fetch prescription");
     }
 
-    return await response.json();
+    const result = await response.json();
+    console.log(result)
+    console.log(result)
+    return result; // This should be your prescription object
   } catch (error) {
-    console.error("Error fetching prescription:", error);
+    console.error("Error :: getPrescription ::", error);
     throw error;
   }
 }

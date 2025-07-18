@@ -1,33 +1,18 @@
 export function getAppointments(appointment) {
-  const tr = document.createElement("tr");
+    const tr = document.createElement("tr");
 
-  const dateTime = new Date(appointment.appointmentTime);
-  const date = dateTime.toLocaleDateString();
-  const time = dateTime.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+    tr.innerHTML = `
+      <td class="patient-id">${appointment.patientName}</td>
+      <td>${appointment.doctorName}</td>
+      <td>${appointment.date}</td>
+      <td>${appointment.time}</td>
+      <td><img src="../assets/images/edit/edit.png" alt="action" class="prescription-btn" data-id="${appointment.id}"></img></td>
+    `;
 
-  tr.innerHTML = `
-    <td>${appointment.patient.name}</td>
-    <td>${appointment.doctor.name}</td>
-    <td>${date}</td>
-    <td>${time}</td>
-    <td>
-      <img 
-        src="/assets/images/edit/edit.png" 
-        alt="Edit" 
-        class="prescription-btn" 
-        style="cursor: pointer; width: 20px;" 
-        data-id="${appointment.id}"
-      />
-    </td>
-  `;
+    // Attach event listeners
+    tr.querySelector(".prescription-btn").addEventListener("click", () => {
+      window.location.href = `addPrescription.html?id=${patient.id}`;
+    });
 
-  const editIcon = tr.querySelector(".prescription-btn");
-  editIcon.addEventListener("click", () => {
-    window.location.href = `../pages/addPrescription.html?id=${appointment.id}`;
-  });
-
-  return tr;
-}
+    return tr;
+  }

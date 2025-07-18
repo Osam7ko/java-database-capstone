@@ -1,80 +1,61 @@
-// appointmentRecordService.js
-
 import { API_BASE_URL } from "../config/config.js";
-
 const APPOINTMENT_API = `${API_BASE_URL}/appointments`;
 
-// Get all appointments for a doctor based on date and patient name
+
+//This is for the doctor to get all the patient Appointments
 export async function getAllAppointments(date, patientName, token) {
-  try {
-    const response = await fetch(
-      `${APPOINTMENT_API}/${date}/${patientName}/${token}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch appointments.");
-    }
-
-    const data = await response.json();
-    console.log("Appointments API response:", data);
-    return data.appointments || [];
-  } catch (error) {
-    console.error("Error in getAllAppointments:", error);
-    throw error;
+  const response = await fetch(`${APPOINTMENT_API}/${date}/${patientName}/${token}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch appointments");
   }
+  
+  return await response.json(); 
 }
 
-// Book a new appointment
 export async function bookAppointment(appointment, token) {
   try {
     const response = await fetch(`${APPOINTMENT_API}/${token}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(appointment),
+      body: JSON.stringify(appointment)
     });
 
-    const result = await response.json();
+    const data = await response.json();
     return {
       success: response.ok,
-      message: result.message || "Could not book appointment.",
+      message: data.message || "Something went wrong"
     };
   } catch (error) {
-    console.error("Error booking appointment:", error);
+    console.error("Error while booking appointment:", error);
     return {
       success: false,
-      message: "Network error or server unavailable.",
+      message: "Network error. Please try again later."
     };
   }
 }
 
-// Update an existing appointment
 export async function updateAppointment(appointment, token) {
   try {
     const response = await fetch(`${APPOINTMENT_API}/${token}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(appointment),
+      body: JSON.stringify(appointment)
     });
 
-    const result = await response.json();
+    const data = await response.json();
     return {
       success: response.ok,
-      message: result.message || "Could not update appointment.",
+      message: data.message || "Something went wrong"
     };
   } catch (error) {
-    console.error("Error updating appointment:", error);
+    console.error("Error while booking appointment:", error);
     return {
       success: false,
-      message: "Network error or server unavailable.",
+      message: "Network error. Please try again later."
     };
   }
 }

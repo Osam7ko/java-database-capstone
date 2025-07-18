@@ -2,66 +2,50 @@
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Patient Appointments - Healthcare Management</title>
-   <link rel="icon" type="image/png" href="/assets/images/logo/logo.png" />
-
-   <!-- CSS Stylesheets -->
-   <link rel="stylesheet" href="/assets/css/adminDashboard.css" />
-   <link rel="stylesheet" href="/assets/css/doctorDashboard.css" />
-   <link rel="stylesheet" href="/assets/css/style.css" />
-
-   <!-- JavaScript Files -->
-   <script defer src="/js/render.js" type="module"></script>
-   <script defer src="/js/util.js" type="module"></script>
-   <script defer src="/js/components/header.js"></script>
-   <script defer src="/js/components/footer.js"></script>
-   <script defer src="/js/patientAppointment.js" type="module"></script>
+    <meta charset="UTF-8">
+    <link href="../assets/images/logo/logo.png" rel="icon" type="image/svg+xml"/>
+    <title>Patient Appointments</title>
+    <link href="../assets/css/adminDashboard.css" rel="stylesheet">
+    <link href="../assets/css/doctorDashboard.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <script defer src="../js/render.js"></script>
+    <script defer src="../js/util.js"></script>
+    <script defer src="../js/components/header.js"></script>
+    <script defer src="../js/components/footer.js"></script>
+    <script defer src="../js/patientAppointment.js" type="module"></script>
 </head>
 
 <body onload="renderContent()">
-   <div class="container">
-      <div class="wrapper">
-         <!-- Header Placeholder -->
-         <div id="header"></div>
-
-         <!-- Main Content Area -->
-         <div class="main-content">
-            <h2>Patient <span>Appointments</span></h2>
-
-            <!-- Search Bar -->
-            <input type="text" id="searchBar" class="searchBar" placeholder="Search appointments..." />
-
-            <!-- Appointment Filter Dropdown -->
-            <select id="filterSelect" class="filterSelect">
-               <option value="all">All Appointments</option>
-               <option value="upcoming">Upcoming Appointments</option>
-               <option value="past">Past Appointments</option>
-            </select>
-
-            <!-- Appointments Table -->
-            <table class="appointments-table">
-               <thead>
-                  <tr>
-                     <th>Patient</th>
-                     <th>Doctor</th>
-                     <th>Date</th>
-                     <th>Time</th>
-                     <th>Status</th>
-                     <th>Actions</th>
-                  </tr>
-               </thead>
-               <tbody id="patientTableBody">
-                  <!-- Rows will be inserted here dynamically -->
-               </tbody>
+<div class="container">
+    <div class="wrapper">
+        <div id="header"></div>
+        <div class="main-content">
+            <h2>Patient <span>Appointment</span></h2>
+            <input class="searchBar" id="searchBar" placeholder="Search Bar for custom output" type="text"/>
+            <div class="filter-wrapper">
+                <select class="filter-select" id="appointmentFilter">
+                    <option value="allAppointments">All Appointments</option>
+                    <option value="future">Upcoming Appointments</option>
+                    <option value="past">Past Appointments</option>
+                </select>
+            </div>
+            <table id="patientTable">
+                <thead class="table-header">
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Doctor Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="patientTableBody">
+                <!-- rows will be inserted here dynamically -->
+                </tbody>
             </table>
-         </div>
-
-         <!-- Footer Placeholder -->
-         <div id="footer"></div>
-      </div>
-   </div>
+        </div>
+        <div id="footer"></div>
+    </div>
+</div>
 </body>
-
 </html>

@@ -1,228 +1,137 @@
-import { getDoctors, filterDoctors } from "./services/doctorServices.js";
-import { bookAppointment } from "./services/appointmentRecordService.js";
-import { createDoctorCard } from "./components/doctorCard.js";
-import { getPatientData } from "./services/patientServices.js";
-import { getToken, setRole } from "./util.js";
+import { getDoctors } from './services/doctorServices.js';
+import { createDoctorCard } from './components/doctorCard.js';
+import { filterDoctors } from './services/doctorServices.js';
+import { bookAppointment } from './services/appointmentRecordService.js';
 
-let currentPatient = null;
 
-document.addEventListener("DOMContentLoaded", async () => {
-  // Set logged patient role
-  setRole("loggedPatient");
-
-  try {
-    const token = getToken();
-    if (!token) {
-      alert("⚠️ Session expired. Please log in again.");
-      window.location.href = "/pages/patientDashboard.html";
-      return;
-    }
-
-    currentPatient = await getPatientData(token);
-
-    if (!currentPatient) {
-      alert("⚠️ Session expired. Please log in again.");
-      window.location.href = "/pages/patientDashboard.html";
-      return;
-    }
-
-    loadDoctorCards();
-    setupEventListeners();
-  } catch (err) {
-    console.error("Failed to load patient data:", err);
-    window.location.href = "/pages/patientDashboard.html";
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  loadDoctorCards();
 });
 
-function setupEventListeners() {
-  const searchBar = document.getElementById("searchBar");
-  const filterTime = document.getElementById("filterTime");
-  const filterSpecialty = document.getElementById("filterSpecialty");
+function loadDoctorCards() {
+  getDoctors()
+    .then(doctors => {
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = "";
 
-  if (searchBar) searchBar.addEventListener("input", filterDoctorsOnChange);
-  if (filterTime) filterTime.addEventListener("change", filterDoctorsOnChange);
-  if (filterSpecialty)
-    filterSpecialty.addEventListener("change", filterDoctorsOnChange);
-}
-
-async function loadDoctorCards() {
-  try {
-    const doctors = await getDoctors();
-    const container = document.getElementById("content");
-    container.innerHTML = "";
-
-    doctors.forEach((doctor) => {
-      const card = createDoctorCard(doctor);
-      container.appendChild(card);
+      doctors.forEach(doctor => {
+        const card = createDoctorCard(doctor);
+        contentDiv.appendChild(card);
+      });
+    })
+    .catch(error => {
+      console.error("Failed to load doctors:", error);
     });
-  } catch (error) {
-    console.error("Error loading doctors:", error);
-  }
 }
 
-export function showBookingOverlay(doctor, patient) {
-  const overlay = document.getElementById("bookingOverlay");
-  const content = document.getElementById("booking-content");
+export function showBookingOverlay(e, doctor, patient) {
+  const button = e.target;
+  const rect = button.getBoundingClientRect();
+  console.log(patient.name)
+  console.log(patient)
+  const ripple = document.createElement("div");
+  ripple.classList.add("ripple-overlay");
+  ripple.style.left = `${e.clientX}px`;
+  ripple.style.top = `${e.clientY}px`;
+  document.body.appendChild(ripple);
 
-  if (!overlay || !content) {
-    alert("Booking interface not available. Please refresh the page.");
-    return;
-  }
+  setTimeout(() => ripple.classList.add("active"), 50);
 
-  // Get available times from doctor data
-  const availableTimes = doctor.availability ||
-    doctor.availableTimes || [
-      "09:00-10:00",
-      "10:00-11:00",
-      "11:00-12:00",
-      "12:00-13:00",
-      "13:00-14:00",
-      "14:00-15:00",
-      "15:00-16:00",
-      "16:00-17:00",
-    ];
+  const modalApp = document.createElement("div");
+  modalApp.classList.add("modalApp");
 
-  content.innerHTML = `
+  modalApp.innerHTML = `
     <h2>Book Appointment</h2>
-    <div class="booking-form">
-      <label>Doctor: <input type="text" value="${doctor.name}" disabled></label>
-      <label>Patient: <input type="text" value="${
-        patient ? patient.name : "Current Patient"
-      }" disabled></label>
-      <label>Date: <input type="date" id="appointmentDate" min="${
-        new Date().toISOString().split("T")[0]
-      }"></label>
-      <label>Time:
-        <select id="appointmentTime">
-          ${availableTimes
-            .map((time) => {
-              const timeValue = time.includes("-") ? time.split("-")[0] : time;
-              return `<option value="${timeValue}">${time}</option>`;
-            })
-            .join("")}
-        </select>
-      </label>
-      <div class="booking-buttons">
-        <button id="confirmBooking" class="dashboard-btn">Confirm Booking</button>
-        <button id="cancelBooking" class="dashboard-btn secondary">Cancel</button>
-      </div>
-    </div>
+    <input class="input-field" type="text" value="${patient.name}" disabled />
+    <input class="input-field" type="text" value="${doctor.name}" disabled />
+    <input class="input-field" type="text" value="${doctor.specialty}" disabled/>
+    <input class="input-field" type="email" value="${doctor.email}" disabled/>
+    <input class="input-field" type="date" id="appointment-date" />
+    <select class="input-field" id="appointment-time">
+      <option value="">Select time</option>
+      ${doctor.availableTimes.map(t => `<option value="${t}">${t}</option>`).join('')}
+    </select>
+    <button class="confirm-booking">Confirm Booking</button>
   `;
 
-  overlay.style.display = "block";
+  document.body.appendChild(modalApp);
 
-  // Setup event listeners
-  document
-    .getElementById("confirmBooking")
-    .addEventListener("click", async () => {
-      await handleBookingConfirmation(doctor, patient || currentPatient);
+  setTimeout(() => modalApp.classList.add("active"), 600);
+
+  modalApp.querySelector(".confirm-booking").addEventListener("click", async () => {
+    const date = modalApp.querySelector("#appointment-date").value;
+    const time = modalApp.querySelector("#appointment-time").value;
+    const token = localStorage.getItem("token");
+    const startTime = time.split('-')[0];
+    const appointment = {
+      doctor: { id: doctor.id },
+      patient: { id: patient.id },
+      appointmentTime: `${date}T${startTime}:00`,
+      status: 0
+    };
+
+
+    const { success, message } = await bookAppointment(appointment, token);
+
+    if (success) {
+      alert("Appointment Booked successfully");
+      ripple.remove();
+      modalApp.remove();
+    } else {
+      alert("❌ Failed to book an appointment :: " + message);
+    }
+  });
+}
+
+
+
+// Filter Input
+document.getElementById("searchBar").addEventListener("input", filterDoctorsOnChange);
+document.getElementById("filterTime").addEventListener("change", filterDoctorsOnChange);
+document.getElementById("filterSpecialty").addEventListener("change", filterDoctorsOnChange);
+
+
+
+function filterDoctorsOnChange() {
+  const searchBar = document.getElementById("searchBar").value.trim();
+  const filterTime = document.getElementById("filterTime").value;
+  const filterSpecialty = document.getElementById("filterSpecialty").value;
+
+
+  const name = searchBar.length > 0 ? searchBar : null;
+  const time = filterTime.length > 0 ? filterTime : null;
+  const specialty = filterSpecialty.length > 0 ? filterSpecialty : null;
+
+  filterDoctors(name , time ,specialty)
+    .then(response => {
+      const doctors = response.doctors;
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = "";
+
+      if (doctors.length > 0) {
+        console.log(doctors);
+        doctors.forEach(doctor => {
+          const card = createDoctorCard(doctor);
+          contentDiv.appendChild(card);
+        });
+      } else {
+        contentDiv.innerHTML = "<p>No doctors found with the given filters.</p>";
+        console.log("Nothing");
+      }
+    })
+    .catch(error => {
+      console.error("Failed to filter doctors:", error);
+      alert("❌ An error occurred while filtering doctors.");
     });
-
-  document.getElementById("cancelBooking").addEventListener("click", () => {
-    overlay.style.display = "none";
-  });
-
-  document.getElementById("closeBooking").addEventListener("click", () => {
-    overlay.style.display = "none";
-  });
-}
-
-async function handleBookingConfirmation(doctor, patient) {
-  const date = document.getElementById("appointmentDate").value;
-  const time = document.getElementById("appointmentTime").value;
-
-  if (!date) {
-    alert("Please select a date for the appointment.");
-    return;
-  }
-
-  if (!time) {
-    alert("Please select a time for the appointment.");
-    return;
-  }
-
-  // Create proper datetime format
-  const timeFormatted = time.includes(":") ? time : `${time}:00`;
-  const datetime = new Date(`${date}T${timeFormatted}:00`);
-
-  // Create appointment object with proper structure expected by backend
-  const appointment = {
-    patient: {
-      id: patient.id,
-      name: patient.name,
-      email: patient.email,
-    },
-    doctor: {
-      id: doctor.id,
-      name: doctor.name,
-      email: doctor.email,
-      specialization: doctor.specialization || doctor.specialty,
-    },
-    appointmentTime: datetime.toISOString(),
-  };
-
-  console.log("Booking appointment:", appointment);
-
-  try {
-    const result = await bookAppointment(appointment, getToken());
-    console.log("Booking result:", result);
-
-    if (result.success) {
-      alert("✅ Appointment booked successfully!");
-      document.getElementById("bookingOverlay").style.display = "none";
-    } else {
-      alert("❌ " + (result.message || "Failed to book appointment."));
-    }
-  } catch (error) {
-    console.error("Error booking appointment:", error);
-    alert("❌ Error booking appointment: " + error.message);
-  }
-}
-
-async function filterDoctorsOnChange() {
-  const searchValue = document.getElementById("searchBar")?.value.trim() || "";
-  const timeValue = document.getElementById("filterTime")?.value || "";
-  const specialtyValue =
-    document.getElementById("filterSpecialty")?.value || "";
-
-  // If no filters are applied, load all doctors
-  if (!searchValue && !timeValue && !specialtyValue) {
-    await loadDoctorCards();
-    return;
-  }
-
-  const name = searchValue || null;
-  const time = timeValue || null;
-  const specialty = specialtyValue || null;
-
-  try {
-    const doctors = await filterDoctors(name, time, specialty);
-    const container = document.getElementById("content");
-    container.innerHTML = "";
-
-    if (doctors && doctors.length > 0) {
-      doctors.forEach((doctor) => {
-        const card = createDoctorCard(doctor);
-        container.appendChild(card);
-      });
-    } else {
-      container.innerHTML = "<p>No doctors found with the given filters.</p>";
-    }
-  } catch (error) {
-    console.error("Error filtering doctors:", error);
-    alert("❌ An error occurred while filtering doctors.");
-  }
 }
 
 export function renderDoctorCards(doctors) {
-  const container = document.getElementById("content");
-  container.innerHTML = "";
+  const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = "";
 
-  doctors.forEach((doctor) => {
-    const card = createDoctorCard(doctor);
-    container.appendChild(card);
-  });
+      doctors.forEach(doctor => {
+        const card = createDoctorCard(doctor);
+        contentDiv.appendChild(card);
+      });
+
 }
-
-// Make showBookingOverlay globally available
-window.showBookingOverlay = showBookingOverlay;

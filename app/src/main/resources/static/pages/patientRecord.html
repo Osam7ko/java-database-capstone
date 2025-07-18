@@ -1,56 +1,43 @@
+<!-- for doctor to see patient details -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-   <meta charset="UTF-8" />
-   <title>Doctor Dashboard - Patient Record</title>
-   <link rel="icon" type="image/svg+xml" href="../assets/images/logo/logo.png" />
-
-   <!-- Stylesheets -->
-   <link rel="stylesheet" href="../static/css/adminDashboard.css" />
-   <link rel="stylesheet" href="../static/css/doctorDashboard.css" />
-   <link rel="stylesheet" href="../static/css/style.css" />
-
-   <!-- Scripts -->
-   <script src="../js/render.js" type="module" defer></script>
-   <script src="../js/util.js" type="module" defer></script>
-   <script src="../js/header.js" type="module" defer></script>
-   <script src="../js/footer.js" type="module" defer></script>
-   <script src="../js/components/patientRecordRow.js" type="module" defer></script>
-   <script src="../js/patientRecordServices.js" type="module" defer></script>
+    <meta charset="UTF-8">
+    <link href="../assets/images/logo/logo.png" rel="icon" type="image/svg+xml"/>
+    <title>DoctorDashboard</title>
+    <link href="../assets/css/adminDashboard.css" rel="stylesheet">
+    <link href="../assets/css/doctorDashboard.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <script defer src="../js/render.js"></script>
+    <script defer src="../js/util.js"></script>
+    <script defer src="../js/components/header.js"></script>
+    <script defer src="../js/components/footer.js"></script>
+    <script defer src="../js/components/patientRecordRow.js" type="module"></script>
+    <script defer src="../js/patientRecordServices.js" type="module"></script>
 </head>
-
 <body onload="renderContent()">
-   <div class="container">
-      <div class="wrapper">
-         <!-- Dynamic Header -->
-         <div id="header"></div>
-
-         <!-- Main Content -->
-         <div class="main-content">
+<div class="container">
+    <div class="wrapper">
+        <div id="header"></div>
+        <div class="main-content">
             <h2>Patient <span>Record</span></h2>
+            <table id="patientTable">
+                <thead class="table-header">
+                <tr>
+                    <th>Date</th>
+                    <th>Appointment ID</th>
+                    <th>Patient ID</th>
+                    <th>Prescription</th>
+                </tr>
+                </thead>
+                <tbody id="patientTableBody"></tbody>
+            </table>
+        </div>
+        <div id="footer"></div>
+    </div>
+</div>
 
-            <div class="table-container">
-               <table class="table">
-                  <thead>
-                     <tr>
-                        <th>Date</th>
-                        <th>Appointment ID</th>
-                        <th>Patient ID</th>
-                        <th>Prescription</th>
-                     </tr>
-                  </thead>
-                  <tbody id="patientTableBody">
-                     <!-- Rows will be dynamically inserted here -->
-                  </tbody>
-               </table>
-            </div>
-         </div>
-
-         <!-- Dynamic Footer -->
-         <div id="footer"></div>
-      </div>
-   </div>
 </body>
+
 
 </html>
