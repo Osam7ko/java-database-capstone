@@ -1,0 +1,26 @@
+name: Lint Java Backend
+on: [ push, pull_request ]
+
+jobs:
+  lint-java:
+    runs-on: ubuntu-latest
+    name: Checkstyle Java Linting
+    steps:
+      # 1. Checkout source code
+      - uses: actions/checkout@v3
+
+      # 2. Set up JDK 17
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Download Checkstyle jar
+      - name: Download Checkstyle
+        run: curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
+
+      # 4. Run Checkstyle on your backend source
+      - name: Run Checkstyle
+        run: |
+          java -jar checkstyle.jar -c /google_checks.xml app/src/main/java/com/project/back_end || true
