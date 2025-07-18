@@ -11,7 +11,7 @@ function renderHeader() {
     headerDiv.innerHTML = `
       <header class="header">
         <div class="logo-section">
-          <img src="../assets/images/logo/logo.png" alt="Hospital CRM Logo" class="logo-img">
+          <img src="/assets/images/logo/logo.png" alt="Hospital CRM Logo" class="logo-img">
           <span class="logo-title">Hospital CMS</span>
         </div>
       </header>`;
@@ -35,7 +35,7 @@ function renderHeader() {
   let headerContent = `
     <header class="header">
       <div class="logo-section">
-        <img src="../assets/images/logo/logo.png" alt="Hospital CRM Logo" class="logo-img">
+        <img src="/assets/images/logo/logo.png" alt="Hospital CRM Logo" class="logo-img">
         <span class="logo-title">Hospital CMS</span>
       </div>
       <nav>`;
@@ -47,7 +47,7 @@ function renderHeader() {
       <a href="#" onclick="logout()">Logout</a>`;
   } else if (role === "doctor") {
     headerContent += `
-      <button class="adminBtn" onclick="window.location.href='/pages/doctorDashboard.html'">Home</button>
+      <button class="adminBtn" onclick="window.location.href='/doctorDashboard/${token}'">Home</button>
       <a href="#" onclick="logout()">Logout</a>`;
   } else if (role === "patient") {
     headerContent += `
@@ -71,11 +71,19 @@ function attachHeaderButtonListeners() {
   const signupBtn = document.getElementById("patientSignup");
 
   if (loginBtn) {
-    loginBtn.addEventListener("click", () => openModal("login"));
+    loginBtn.addEventListener("click", () => {
+      if (typeof openModal === "function") {
+        openModal("patientLogin");
+      }
+    });
   }
 
   if (signupBtn) {
-    signupBtn.addEventListener("click", () => openModal("signup"));
+    signupBtn.addEventListener("click", () => {
+      if (typeof openModal === "function") {
+        openModal("patientSignup");
+      }
+    });
   }
 }
 
@@ -92,6 +100,11 @@ function logoutPatient() {
   localStorage.setItem("userRole", "patient");
   window.location.href = "/pages/patientDashboard.html";
 }
+
+// Make functions globally available
+window.logout = logout;
+window.logoutPatient = logoutPatient;
+window.renderHeader = renderHeader;
 
 // Call renderHeader immediately when the script loads
 renderHeader();

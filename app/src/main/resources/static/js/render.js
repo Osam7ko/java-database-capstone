@@ -24,10 +24,10 @@ export function selectRole(role) {
 }
 
 export function renderContent() {
-  const role = localStorage.getItem("role");
+  const role = localStorage.getItem("userRole");
 
   if (!role) {
-    window.location.href = "/pages/index.html";
+    window.location.href = "/index.html";
     return;
   }
 

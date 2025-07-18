@@ -22,3 +22,34 @@ export function getRole() {
 export function clearRole() {
   localStorage.removeItem("userRole");
 }
+
+/**
+ * Stores the user's token in localStorage.
+ * @param {string} token - The token to store
+ */
+export function setToken(token) {
+  localStorage.setItem("token", token);
+}
+
+/**
+ * Retrieves the user's token from localStorage.
+ * @returns {string|null} - The stored token or null if not found
+ */
+export function getToken() {
+  return localStorage.getItem("token");
+}
+
+/**
+ * Clears the user's token from localStorage.
+ */
+export function clearToken() {
+  localStorage.removeItem("token");
+}
+
+/**
+ * Clears all user data from localStorage.
+ */
+export function clearUserData() {
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("token");
+}

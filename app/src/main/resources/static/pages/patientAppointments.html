@@ -3,20 +3,21 @@
 
 <head>
    <meta charset="UTF-8" />
-   <title>Patient Appointments</title>
-   <link rel="icon" type="image/svg+xml" href="../assets/images/logo/logo.png" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Patient Appointments - Healthcare Management</title>
+   <link rel="icon" type="image/png" href="/assets/images/logo/logo.png" />
 
    <!-- CSS Stylesheets -->
-   <link rel="stylesheet" href="../assets/css/adminDashboard.css" />
-   <link rel="stylesheet" href="../assets/css/doctorDashboard.css" />
-   <link rel="stylesheet" href="../assets/css/style.css" />
+   <link rel="stylesheet" href="/assets/css/adminDashboard.css" />
+   <link rel="stylesheet" href="/assets/css/doctorDashboard.css" />
+   <link rel="stylesheet" href="/assets/css/style.css" />
 
    <!-- JavaScript Files -->
-   <script defer src="../js/render.js" type="module"></script>
-   <script defer src="../js/util.js" type="module"></script>
-   <script defer src="../js/components/header.js" type="module"></script>
-   <script defer src="../js/components/footer.js" type="module"></script>
-   <script defer src="../js/patientAppointment.js" type="module"></script>
+   <script defer src="/js/render.js" type="module"></script>
+   <script defer src="/js/util.js" type="module"></script>
+   <script defer src="/js/components/header.js"></script>
+   <script defer src="/js/components/footer.js"></script>
+   <script defer src="/js/patientAppointment.js" type="module"></script>
 </head>
 
 <body onload="renderContent()">
@@ -27,10 +28,10 @@
 
          <!-- Main Content Area -->
          <div class="main-content">
-            <h2>Patient <span>Appointment</span></h2>
+            <h2>Patient <span>Appointments</span></h2>
 
             <!-- Search Bar -->
-            <input type="text" id="searchBar" class="searchBar" placeholder="Search Bar for custom output" />
+            <input type="text" id="searchBar" class="searchBar" placeholder="Search appointments..." />
 
             <!-- Appointment Filter Dropdown -->
             <select id="filterSelect" class="filterSelect">
@@ -47,6 +48,7 @@
                      <th>Doctor</th>
                      <th>Date</th>
                      <th>Time</th>
+                     <th>Status</th>
                      <th>Actions</th>
                   </tr>
                </thead>
