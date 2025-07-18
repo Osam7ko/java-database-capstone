@@ -1,5 +1,19 @@
 version: "3.9"
 services:
+  backend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: smart-clinic
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - mongodb
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
   mysql:
     image: mysql:8.3.0
     container_name: cms-mysql
@@ -10,9 +24,7 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      #      Local data
       - ./docker/mysql/data:/var/lib/mysql
-      #      Build Script
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   mongodb:
@@ -26,5 +38,4 @@ services:
     ports:
       - "27018:27017"
     volumes:
-      #      Local Data
       - ./docker/mongo/data:/data/db
