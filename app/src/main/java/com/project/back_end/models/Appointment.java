@@ -3,20 +3,12 @@ package com.project.back_end.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "appointments")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Appointment {
 
     @Id
@@ -24,43 +16,71 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
-    @NotNull(message = "Doctor must be assigned")
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @NotNull(message = "Doctor must be assigned to the appointment")
     private Doctor doctor;
 
     @ManyToOne
-    @NotNull(message = "Patient must be assigned")
-    @JoinColumn(name = "patient_id", nullable = false)
+    @NotNull(message = "Patient must be assigned to the appointment")
     private Patient patient;
 
     @Future(message = "Appointment time must be in the future")
-    @NotNull(message = "Appointment time is required")
-    private LocalDateTime appointmentTime;
-
-    @NotNull(message = "Status is required")
-    private int status; // 0 = Scheduled, 1 = Completed
-
-    @Size(max = 200, message = "Reason for visit must not exceed 200 characters")
-    private String reasonForVisit;
-
-    @Size(max = 300, message = "Notes must not exceed 300 characters")
-    private String notes;
-
-
-    // === Helper Methods ===
+    private LocalDateTime appointmentTime;  // The time when the appointment is scheduled
+    @NotNull(message = "Status cannot be null")
+    private int status;  // Status can be "Scheduled:0", "Completed:1"
 
     @Transient
     public LocalDateTime getEndTime() {
-        return this.appointmentTime.plusHours(1);
+        return appointmentTime != null ? appointmentTime.plusHours(1) : null;
     }
 
-    @Transient
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public LocalDateTime getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(LocalDateTime appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    // Getter for LocalDate (only the date part, no time)
     public LocalDate getAppointmentDate() {
-        return this.appointmentTime.toLocalDate();
+        return appointmentTime != null ? appointmentTime.toLocalDate() : null;
     }
 
-    @Transient
+    // Getter for LocalTime (only the time part, no date)
     public LocalTime getAppointmentTimeOnly() {
-        return this.appointmentTime.toLocalTime();
+        return appointmentTime != null ? appointmentTime.toLocalTime() : null;  // Extracts only the time
     }
 }
